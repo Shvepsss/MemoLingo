@@ -1,0 +1,21 @@
+{
+  "name": "memolingo",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd client && yarn",
+    "server": "cd client && yarn"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shvepsss/MemoLingo.git"
+  },
+  
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shvepsss/MemoLingo/issues"
+  },
+  "homepage": "https://github.com/Shvepsss/MemoLingo#readme"
+}
