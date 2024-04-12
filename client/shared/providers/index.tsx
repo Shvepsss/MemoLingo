@@ -1,9 +1,13 @@
+import { NavigationProvider } from './NavigationProvider';
 import { ThemeProvider } from './ThemeProvider';
+import { SafeAreaProvider } from './SafeAreaProvider';
 
-type ProviderProps = {
-  children: React.ReactNode;
-};
-
-export const Provider = ({ children }: ProviderProps) => {
-  return <ThemeProvider>{children}</ThemeProvider>;
+export const Provider = () => {
+  return (
+    <ThemeProvider>
+      <SafeAreaProvider>
+        <NavigationProvider />
+      </SafeAreaProvider>
+    </ThemeProvider>
+  );
 };
