@@ -1,5 +1,5 @@
-import { View } from 'app/shared/components/ui';
-import { Button, Text } from 'react-native-paper';
+import { Typography, View, VectorIcon } from 'app/shared/components/ui';
+import { Button } from 'react-native-paper';
 import { useRouter } from 'app/shared/hooks/navigation';
 import { APP_URL } from 'app/shared/constants/url';
 
@@ -8,10 +8,16 @@ export const HomePage = () => {
 
   return (
     <View>
-      <Text>It's home page</Text>
+      <Typography variant="h1" color="secondary100">
+        It's home page
+      </Typography>
       <Button onPress={() => router.navigate(APP_URL.private.search.index)}>
-        <Text>Go to search page</Text>
+        <Typography variant="h2" color="primary80">
+          Go to search page
+        </Typography>
       </Button>
+      <VectorIcon iconName="audio" size={50} color="accentError" />
+      <VectorIcon iconName="back" size={100} color="primary100" />
     </View>
   );
 };
