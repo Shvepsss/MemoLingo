@@ -1,23 +1,59 @@
-import { Typography, View, VectorIcon } from 'app/shared/components/ui';
-import { Button } from 'react-native-paper';
+import { Typography, View, Button } from 'app/shared/components/ui';
+import { ImageIcon } from 'app/shared/components/ui/ImageIcon';
 import { useRouter } from 'app/shared/hooks/navigation';
-import { APP_URL } from 'app/shared/constants/url';
 
 export const HomePage = () => {
   const router = useRouter();
 
   return (
-    <View>
+    <View style={{ gap: 10 }}>
       <Typography variant="h1" color="secondary100">
         It's home page
       </Typography>
-      <Button onPress={() => router.navigate(APP_URL.private.search.index)}>
-        <Typography variant="h2" color="primary80">
-          Go to search page
-        </Typography>
-      </Button>
-      <VectorIcon iconName="audio" size={50} color="accentError" />
-      <VectorIcon iconName="back" size={100} color="primary100" />
+      <Button
+        onPress={() => router.navigate(APP_URL.private.search.index)}
+        title="Go to search page"
+      />
+      <Button
+        backgroundColor="error60"
+        title="It s error button"
+        onPress={() => {}}
+        borderColor="primary100"
+      />
+      <Button
+        backgroundColor="black0"
+        title="Continue"
+        onPress={() => {}}
+        disabled
+        borderColor="black60"
+      />
+      <Button
+        title="Continue"
+        onPress={() => {}}
+        backgroundColor="black0"
+        titleColor="black100"
+        borderColor="primary60"
+        radius="square"
+      />
+      <Button
+        title="Continue"
+        onPress={() => {}}
+        backgroundColor="black0"
+        titleColor="primary60"
+        borderColor="primary60"
+        radius="square"
+      />
+      <View
+        style={{
+          height: 100,
+          width: '100%',
+          backgroundColor: 'red',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <ImageIcon icon="home" />
+      </View>
     </View>
   );
 };
