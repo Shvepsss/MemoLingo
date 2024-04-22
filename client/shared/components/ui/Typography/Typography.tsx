@@ -4,7 +4,7 @@ import { useTheme } from 'app/shared/hooks/styles';
 
 import { TypographyProps } from './types';
 
-export const Typography = ({ children, color, variant }: TypographyProps) => {
+export const Typography = ({ children, color, variant, style, ...textProps }: TypographyProps) => {
   const theme = useTheme();
 
   const fontStyle = theme.fonts[variant];
@@ -13,5 +13,9 @@ export const Typography = ({ children, color, variant }: TypographyProps) => {
     color: color ? theme.colors[color] : undefined,
   };
 
-  return <Text style={[colorStyle, fontStyle]}>{children}</Text>;
+  return (
+    <Text style={[colorStyle, fontStyle, style]} {...textProps}>
+      {children}
+    </Text>
+  );
 };
