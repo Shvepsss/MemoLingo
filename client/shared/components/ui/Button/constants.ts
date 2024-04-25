@@ -1,4 +1,4 @@
 export const BUTTON_RADIUS = {
   default: 20,
-  square: 10,
+  square: 12,
 } as const;
