@@ -1,9 +1,12 @@
 import { Pressable } from 'react-native';
-import { ButtonProps } from './types';
+
+import { Animated } from 'app/shared/styles/reanimated';
+
+import { Typography } from '../Typography';
+
 import { useButtonLogic } from './hooks/useButtonLogic';
 import { useButtonStyles } from './hooks/useButtonStyles';
-import { Animated } from 'app/shared/styles/reanimated';
-import { Typography } from '../Typography';
+import { ButtonProps } from './types';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -19,6 +22,7 @@ export const Button = ({
   left,
   right,
   spaceBetween,
+  style,
 }: ButtonProps) => {
   const { isPressed, pressableProps } = useButtonLogic();
 
@@ -30,6 +34,7 @@ export const Button = ({
     titleColor,
     borderColor,
     spaceBetween,
+    style,
   });
 
   return (
@@ -39,11 +44,11 @@ export const Button = ({
       {...pressableProps}
       style={[pressableBaseStyle, pressableAnimatedStyle]}
     >
-      {left ? left : null}
+      {left || null}
       <Typography color={titleColor} variant={titleVariant}>
         {title}
       </Typography>
-      {right ? right : null}
+      {right || null}
     </AnimatedPressable>
   );
 };

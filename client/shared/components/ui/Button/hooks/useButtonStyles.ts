@@ -1,8 +1,11 @@
-import { type SharedValue, useAnimatedStyle, withTiming } from 'app/shared/styles/reanimated';
-import { ButtonProps } from '../types';
+import { ViewStyle } from 'react-native';
+
 import { useTheme } from 'app/shared/hooks/styles';
-import { BUTTON_RADIUS } from '../constants';
 import { MD3Colors } from 'app/shared/providers/theme';
+import { type SharedValue, useAnimatedStyle, withTiming } from 'app/shared/styles/reanimated';
+
+import { BUTTON_RADIUS } from '../constants';
+import { ButtonProps } from '../types';
 
 type UseButtonStylesProps = Pick<
   Required<ButtonProps>,
@@ -11,6 +14,7 @@ type UseButtonStylesProps = Pick<
   isPressed: SharedValue<boolean>;
   borderColor?: keyof MD3Colors;
   spaceBetween?: boolean;
+  style?: ViewStyle;
 };
 
 export const useButtonStyles = ({
@@ -20,6 +24,7 @@ export const useButtonStyles = ({
   radius,
   borderColor,
   spaceBetween,
+  style,
 }: UseButtonStylesProps) => {
   const theme = useTheme();
   const pressableAnimatedStyle = useAnimatedStyle(() => {
@@ -32,7 +37,8 @@ export const useButtonStyles = ({
   const pressableBaseStyle = {
     backgroundColor: disabled ? theme.colors.black40 : theme.colors[backgroundColor || 'primary60'],
     borderRadius: BUTTON_RADIUS[radius],
-    height: 57,
+    height: style ? style.height : 50,
+    width: style ? style.width : '100%',
     alignItems: 'center',
     justifyContent: spaceBetween ? 'space-between' : 'center',
     shadowColor: theme.colors.black100,
@@ -42,7 +48,6 @@ export const useButtonStyles = ({
     borderColor: borderColor ? theme.colors[borderColor] : null,
     borderWidth: borderColor ? 1 : 0,
     flexDirection: 'row',
-    paddingHorizontal: 20,
   };
 
   return {
