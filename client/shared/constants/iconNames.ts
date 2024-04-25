@@ -11,7 +11,7 @@ export const ICON_NAMES = {
   shimmer: 'shimmer',
   audio: 'volume-high',
   flag: 'flag',
-  timer: 'timer-outline',
+  timer: 'clock-o',
   addFriend: 'account-plus-outline',
   addedFriend: 'account-check-outline',
   mistake: 'repeat-variant',
