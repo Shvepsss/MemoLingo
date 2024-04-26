@@ -3,10 +3,9 @@ import React from 'react';
 import { useFormikContext } from 'formik';
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
 
-import { MD3Theme } from 'app/shared/providers/theme/theme';
-import { useTheme } from 'app/shared/hooks/styles/useTheme';
-
 import { Typography, View } from 'app/shared/components/ui';
+import { useTheme } from 'app/shared/hooks/styles/useTheme';
+import { MD3Theme } from 'app/shared/providers/theme/theme';
 
 const DEFAULT_HINT_TEXT = 'placeholder-text';
 
