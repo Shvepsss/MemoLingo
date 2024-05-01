@@ -1,8 +1,10 @@
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { MD3Colors } from 'app/shared/providers/theme';
+import { ViewStyle } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import { ICON_NAMES } from 'app/shared/constants/iconNames';
 import { useTheme } from 'app/shared/hooks/styles/useTheme';
-import { ViewStyle } from 'react-native';
+import { MD3Colors } from 'app/shared/providers/theme';
+
 type Iconprops = {
   iconName: keyof typeof ICON_NAMES;
   size?: number;

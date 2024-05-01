@@ -1,5 +1,7 @@
-import { useSharedValue } from 'app/shared/styles/reanimated';
 import { PressableProps } from 'react-native';
+
+import { useSharedValue } from 'app/shared/styles/reanimated';
+
 export const useButtonLogic = () => {
   const isPressed = useSharedValue(false);
 

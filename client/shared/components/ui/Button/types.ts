@@ -1,6 +1,10 @@
+import { ViewStyle } from 'react-native';
+
 import { type MD3Colors } from 'app/shared/providers/theme';
-import { BUTTON_RADIUS } from './constants';
+
 import { type TypographyProps } from '../Typography';
+
+import { BUTTON_RADIUS } from './constants';
 
 export type ButtonProps = {
   title: string;
@@ -14,4 +18,5 @@ export type ButtonProps = {
   radius?: keyof typeof BUTTON_RADIUS;
   borderColor?: keyof MD3Colors;
   spaceBetween?: boolean;
+  style?: ViewStyle;
 };

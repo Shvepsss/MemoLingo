@@ -2,6 +2,7 @@ import {
   TextInput as LocalTextInput,
   type TextInputProps as LocalTextInputProps,
 } from 'react-native-paper';
+
 import { useTheme } from 'app/shared/hooks/styles';
 
 export const TextInput = (props: LocalTextInputProps) => {
