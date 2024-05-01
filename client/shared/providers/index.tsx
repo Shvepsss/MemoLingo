@@ -1,6 +1,6 @@
 import { NavigationProvider } from './NavigationProvider';
-import { ThemeProvider } from './theme/index';
 import { SafeAreaProvider } from './SafeAreaProvider';
+import { ThemeProvider } from './theme/index';
 
 export const Provider = () => {
   return (
