@@ -1,59 +1,29 @@
-import { Typography, View, Button } from 'app/shared/components/ui';
-import { ImageIcon } from 'app/shared/components/ui/ImageIcon';
-import { useRouter } from 'app/shared/hooks/navigation';
+import { SectionList } from 'react-native';
+
+import { MainLayout } from 'app/shared/components/layout/MainLayout';
+import { Typography } from 'app/shared/components/ui';
+import { SectionHeader } from 'app/shared/components/ui/SectionHeader';
+
+import { Section1Data, Section2Data } from './mockData';
 
 export const HomePage = () => {
-  const router = useRouter();
-
   return (
-    <View style={{ gap: 10 }}>
-      <Typography variant="h1" color="secondary100">
-        It's home page
-      </Typography>
-      <Button
-        onPress={() => router.navigate(APP_URL.private.search.index)}
-        title="Go to search page"
+    <MainLayout isScrollable={false} headerTitle="Memolingo">
+      <SectionList
+        sections={[
+          ...Section1Data,
+          ...Section1Data,
+          ...Section1Data,
+          ...Section1Data,
+          ...Section2Data,
+        ]}
+        renderItem={({ item }) => <Typography variant="extraSmallRegular">{item.task}</Typography>}
+        renderSectionHeader={({ section }) => (
+          <SectionHeader title={section.title} details={section.details} />
+        )}
+        keyExtractor={item => item.id}
+        stickySectionHeadersEnabled
       />
-      <Button
-        backgroundColor="error60"
-        title="It s error button"
-        onPress={() => {}}
-        borderColor="primary100"
-      />
-      <Button
-        backgroundColor="black0"
-        title="Continue"
-        onPress={() => {}}
-        disabled
-        borderColor="black60"
-      />
-      <Button
-        title="Continue"
-        onPress={() => {}}
-        backgroundColor="black0"
-        titleColor="black100"
-        borderColor="primary60"
-        radius="square"
-      />
-      <Button
-        title="Continue"
-        onPress={() => {}}
-        backgroundColor="black0"
-        titleColor="primary60"
-        borderColor="primary60"
-        radius="square"
-      />
-      <View
-        style={{
-          height: 100,
-          width: '100%',
-          backgroundColor: 'red',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <ImageIcon icon="home" />
-      </View>
-    </View>
+    </MainLayout>
   );
 };
