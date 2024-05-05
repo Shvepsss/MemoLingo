@@ -1,7 +1,19 @@
 export const APP_URL = {
   public: {
-    home: {
-      index: '/home',
+    main: {
+      index: '/',
+      home: '/home',
+      gym: '/gym',
+      goals: '/goals',
+      profile: '/profile',
+      league: '/league',
+    },
+    start: {
+      index: '/start',
+    },
+    signUp: {
+      profile: '/sign-up/profile',
+      intro: '/sign-up/intro',
     },
   },
   private: {

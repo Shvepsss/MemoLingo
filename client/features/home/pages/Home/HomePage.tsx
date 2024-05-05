@@ -1,17 +1,29 @@
-import { View } from 'app/shared/components/ui';
-import { Button, Text } from 'react-native-paper';
-import { useRouter } from 'app/shared/hooks/navigation';
-import { APP_URL } from 'app/shared/constants/url';
+import { SectionList } from 'react-native';
+
+import { MainLayout } from 'app/shared/components/layout/MainLayout';
+import { Typography } from 'app/shared/components/ui';
+import { SectionHeader } from 'app/shared/components/ui/SectionHeader';
+
+import { Section1Data, Section2Data } from './mockData';
 
 export const HomePage = () => {
-  const router = useRouter();
-
   return (
-    <View>
-      <Text>It's home page</Text>
-      <Button onPress={() => router.navigate(APP_URL.private.search.index)}>
-        <Text>Go to search page</Text>
-      </Button>
-    </View>
+    <MainLayout isScrollable={false} headerTitle="Memolingo">
+      <SectionList
+        sections={[
+          ...Section1Data,
+          ...Section1Data,
+          ...Section1Data,
+          ...Section1Data,
+          ...Section2Data,
+        ]}
+        renderItem={({ item }) => <Typography variant="extraSmallRegular">{item.task}</Typography>}
+        renderSectionHeader={({ section }) => (
+          <SectionHeader title={section.title} details={section.details} />
+        )}
+        keyExtractor={item => item.id}
+        stickySectionHeadersEnabled
+      />
+    </MainLayout>
   );
 };
