@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SIGN_UP_PROGRESS, SIGN_UP_STEPS_QUEUE } from './constants';
+import { SIGN_UP_PROGRESS, SIGN_UP_STEPS, SIGN_UP_STEPS_QUEUE } from './constants';
 import { SignUpContext, SIGN_UP_CONTEXT_DEFAULT_VALUE } from './SignUpContext';
 import { SignUpContextType, SignUpProviderProps } from './types';
 
@@ -12,9 +12,9 @@ export const SignUpProvider = ({ children, handleSubmit }: SignUpProviderProps) 
   const nextStep = SIGN_UP_STEPS_QUEUE[currentStepIndex + 1];
   const prevStep = SIGN_UP_STEPS_QUEUE[currentStepIndex - 1];
 
-  const goNextStep = () => {
-    if (nextStep === 'finish') {
-      handleSubmit();
+  const goNextStep = async () => {
+    if (nextStep === SIGN_UP_STEPS.finish) {
+      await handleSubmit();
       setSignUpStep(nextStep);
     } else {
       setSignUpStep(nextStep);
