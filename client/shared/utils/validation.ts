@@ -57,3 +57,7 @@ export const RegistrationShema = z.object({
   password: passwordValidation,
   name: usernameValidation,
 });
+export const SignInSchema = z.object({
+  email: emailValidation,
+  password: passwordValidation,
+});

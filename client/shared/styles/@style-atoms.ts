@@ -579,6 +579,7 @@ export const border = StyleSheet.create({
   radx7: { borderRadius: theme.roundness * 7 },
   radx8: { borderRadius: theme.roundness * 8 },
   radx10: { borderRadius: theme.roundness * 10 },
+  radx11: { borderRadius: theme.roundness * 12.5 },
 
   radx1Top: { borderTopLeftRadius: theme.roundness, borderTopRightRadius: theme.roundness },
   radx2Top: { borderTopLeftRadius: theme.roundness * 2, borderTopRightRadius: theme.roundness * 2 },
