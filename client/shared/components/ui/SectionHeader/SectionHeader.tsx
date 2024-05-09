@@ -11,20 +11,20 @@ type SectionHeaderProps = {
   details: string;
 };
 
-const CONTAINER_PADDING = 10;
-const CONTAINER_RADIUS = 10;
 const ICON_SIZE = 50;
-const ICON_PADDING = 15;
+
 export const SectionHeader = ({ title, details }: SectionHeaderProps) => {
   const theme = useTheme();
   return (
     <View
-      style={{
-        backgroundColor: theme.colors.primary80,
-        borderRadius: CONTAINER_RADIUS,
-        padding: CONTAINER_PADDING,
-        flexDirection: 'row',
-      }}
+      style={[
+        {
+          backgroundColor: theme.colors.primary80,
+        },
+        S.flex.row,
+        S.spaceAll.px5,
+        S.border.radx2Half,
+      ]}
     >
       <View style={S.flex.two}>
         <Typography variant="h4" color="black0">
@@ -35,8 +35,8 @@ export const SectionHeader = ({ title, details }: SectionHeaderProps) => {
         </Typography>
       </View>
       <View style={(S.flex.one, S.flex.row)}>
-        <Divider style={{ height: '100%', width: 1, backgroundColor: theme.colors.black0 }} />
-        <VectorIcon iconName="book" size={ICON_SIZE} style={{ paddingHorizontal: ICON_PADDING }} />
+        <Divider style={[{ backgroundColor: theme.colors.black0, width: 1 }, S.height.full]} />
+        <VectorIcon iconName="book" size={ICON_SIZE} style={S.spaceHorizontal.px7} />
       </View>
     </View>
   );

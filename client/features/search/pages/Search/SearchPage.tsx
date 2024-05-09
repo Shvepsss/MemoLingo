@@ -1,7 +1,9 @@
 import { Button, Text } from 'react-native-paper';
+
 import { View } from 'app/shared/components/ui';
-import { useRouter } from 'app/shared/hooks/navigation';
 import { APP_URL } from 'app/shared/constants/url';
+import { useRouter } from 'app/shared/hooks/navigation';
+
 export const SearchPage = () => {
   const router = useRouter();
   return (
@@ -13,3 +15,5 @@ export const SearchPage = () => {
     </View>
   );
 };
+
+SearchPage.APP_URL = APP_URL.private.search.index;

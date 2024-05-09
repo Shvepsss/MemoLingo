@@ -1,24 +1,14 @@
-import { useDerivedValue } from 'react-native-reanimated';
+import { withTiming, useAnimatedStyle } from 'app/shared/styles/reanimated';
 
-import { useSharedValue, withTiming, useAnimatedStyle } from 'app/shared/styles/reanimated';
-
-import { ProgressBarProps } from '../ProgressBar';
+import { ProgressBarProps } from '../types';
 
 export const useProgressBarLogic = ({ progress }: ProgressBarProps) => {
-  const animationProgress = useSharedValue(progress);
-
-  useDerivedValue(() => {
-    console.log({ progress });
-    animationProgress.value = progress;
-  }, [progress]);
-
   const progressBareAnimatedStyle = useAnimatedStyle(() => {
-    const width = animationProgress.value * 100;
-    console.log('width', width);
+    const width = progress * 100;
     return {
       width: withTiming(`${width}%`),
     };
-  }, [animationProgress]);
+  }, [progress]);
   return {
     progressBareAnimatedStyle,
   };

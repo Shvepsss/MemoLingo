@@ -1,13 +1,10 @@
 import { View } from 'app/shared/components/ui/View';
 import { useTheme } from 'app/shared/hooks/styles';
+import * as S from 'app/shared/styles/@style-atoms';
 import { Animated } from 'app/shared/styles/reanimated';
 
-// eslint-disable-next-line import/no-cycle
 import { useProgressBarLogic } from './hook/useProgressBarLogic';
-
-export type ProgressBarProps = {
-  progress: number;
-};
+import { ProgressBarProps } from './types';
 
 export const ProgressBar = ({ progress }: ProgressBarProps) => {
   const theme = useTheme();
@@ -15,21 +12,20 @@ export const ProgressBar = ({ progress }: ProgressBarProps) => {
 
   return (
     <View
-      style={{
-        borderRadius: 40,
-        backgroundColor: theme.colors.black40,
-        height: 20,
-        flex: 1,
-        overflow: 'hidden',
-      }}
+      style={[
+        S.border.radx10,
+        S.flex.one,
+        S.overflow.hidden,
+        { backgroundColor: theme.colors.black40, height: 20 },
+      ]}
     >
       <Animated.View
         style={[
           progressBareAnimatedStyle,
+          S.height.full,
+          S.border.radx10,
           {
-            height: '100%',
             backgroundColor: theme.colors.primary40,
-            borderRadius: 40,
           },
         ]}
       />

@@ -37,3 +37,5 @@ const ROUTES = [
 export const MainPage = () => {
   return <BottomNavigation routes={ROUTES} />;
 };
+
+MainPage.APP_URL = APP_URL.public.main.index;

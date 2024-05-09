@@ -8,6 +8,9 @@ export const APP_URL = {
       profile: '/profile',
       league: '/league',
     },
+    signIn: {
+      index: '/sign-in',
+    },
     start: {
       index: '/start',
     },
@@ -21,4 +24,12 @@ export const APP_URL = {
       index: '/search',
     },
   },
+  api: {
+    signIn: '/sign-in',
+    signUp: '/users',
+  },
 } as const;
+
+export const API_URLS = Object.values(APP_URL.api);
+
+export type ApiUrl = (typeof API_URLS)[number];
