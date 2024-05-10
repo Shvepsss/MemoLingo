@@ -1,8 +1,9 @@
 import UserSchema from "./user.model";
 import { NOT_FOUND_ERROR, ENTITY_EXISTS } from "../../errors/appErrors";
+import { UserDocumentBase } from "./user.model";
+
 const ENTITY_NAME = "user";
 const MONGO_ENTITY_EXISTS_ERROR_CODE = 11000;
-import { UserDocumentBase } from "./user.model";
 
 const getUserByEmail = async (email: string) => {
   const user = await UserSchema.findOne({ email });

@@ -13,7 +13,6 @@ const get = async (id: string) => {
   if (!word) {
     throw new NOT_FOUND_ERROR(ENTITY_NAME, { id });
   }
-  const kek = word.toResponse();
 
   return word;
 };

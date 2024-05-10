@@ -21,12 +21,12 @@ router.route("/").get(async (req, res) => {
   });
 
   console.log({ words, page, group });
-  res.status(OK).send(words.map((word) => word.toResponse()));
+  res.status(OK).json(words.map((word) => word.toResponse()));
 });
 
 router.route("/:id").get(async (req, res) => {
   const word = await wordService.get(req.params.id);
-  res.status(OK).send(word.toResponse());
+  res.status(OK).json(word.toResponse());
 });
 
 export default router;

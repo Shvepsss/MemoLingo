@@ -1,6 +1,5 @@
 import { compare } from "bcrypt";
 import * as userRepo from "./user.db.repository";
-import mongoose from "mongoose";
 import { getTokens } from "../token/token.service";
 import { remove as __remove } from "../settings/setting.service";
 import { remove as ___remove } from "../statistics/statistic.service";

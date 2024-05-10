@@ -18,11 +18,14 @@ const save = async (userWord: UserWordDocumentBase) => {
   try {
     return await UserWord.create(userWord);
   } catch (err) {
-    if (err.code === MONGO_ENTITY_EXISTS_ERROR_CODE) {
+    if (
+      err instanceof Error &&
+      "code" in err &&
+      err.code === MONGO_ENTITY_EXISTS_ERROR_CODE
+    ) {
       throw new ENTITY_EXISTS(`such ${ENTITY_NAME} already exists`);
-    } else {
-      throw err;
     }
+    throw err;
   }
 };
 

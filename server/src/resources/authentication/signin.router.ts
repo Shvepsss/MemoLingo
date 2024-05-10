@@ -1,4 +1,5 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
+import { Request, Response } from "app/types";
 import { OK } from "http-status-codes";
 import * as userService from "../users/user.service";
 

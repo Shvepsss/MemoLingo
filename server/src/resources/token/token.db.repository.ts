@@ -1,6 +1,5 @@
 import Token from "./token.model";
 import { AUTHENTICATION_ERROR } from "../../errors/appErrors";
-import { Schema } from "mongoose";
 
 const get = async (userId: string, tokenId: string) => {
   const token = await Token.findOne({ userId, tokenId });
