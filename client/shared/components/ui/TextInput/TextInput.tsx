@@ -10,6 +10,7 @@ export const TextInput = (props: LocalTextInputProps) => {
   return (
     <LocalTextInput
       mode="outlined"
+      autoCorrect={false}
       outlineColor={theme.colors.black40}
       activeOutlineColor={theme.colors.primary60}
       outlineStyle={{ borderRadius: 10 }}

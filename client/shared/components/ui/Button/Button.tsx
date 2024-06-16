@@ -23,6 +23,7 @@ export const Button = ({
   right,
   spaceBetween,
   style,
+  withAnimation = true,
 }: ButtonProps) => {
   const { isPressed, pressableProps } = useButtonLogic();
 
@@ -42,7 +43,7 @@ export const Button = ({
       onPress={onPress}
       disabled={disabled}
       {...pressableProps}
-      style={[pressableBaseStyle, pressableAnimatedStyle, style]}
+      style={[pressableBaseStyle, withAnimation && pressableAnimatedStyle, style]}
     >
       {left || null}
       <Typography color={titleColor} variant={titleVariant}>
