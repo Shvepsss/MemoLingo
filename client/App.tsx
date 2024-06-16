@@ -4,11 +4,12 @@
  *
  * @format
  */
-import { Provider } from 'app/shared/providers';
-import React from 'react';
 
-function App(): React.JSX.Element {
+import { Provider } from 'app/shared/providers';
+import 'react-native-gesture-handler';
+
+const App = (): React.JSX.Element => {
   return <Provider />;
-}
+};
 
 export default App;
