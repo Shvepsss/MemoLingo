@@ -1,11 +1,9 @@
 import { OK, NO_CONTENT } from "http-status-codes";
-import { Router } from "express";
+const router = require("express").Router({ mergeParams: true });
 import { Request, Response } from "app/types";
 import * as userService from "./user.service";
 import { userIdValidator } from "../../utils/validation/validator";
 import { getTokens } from "../token/token.service";
-
-const router = Router();
 
 router.post("/", async (req: Request, res: Response) => {
   try {

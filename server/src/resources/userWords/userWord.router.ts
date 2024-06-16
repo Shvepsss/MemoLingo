@@ -1,11 +1,11 @@
 import { OK, NO_CONTENT } from "http-status-codes";
-import { Router } from "express";
+const router = require("express").Router({ mergeParams: true });
 import { Request, Response } from "app/types";
 import userWordService from "./userWord.service";
 import { UserWordDocument } from "./userWord.model";
-const router = Router();
 
 router.get("/", async (req: Request, res: Response) => {
+  console.log("server", req);
   const userWords = await userWordService.getAll(req.userId);
   res.status(OK).json(userWords.map((w: UserWordDocument) => w.toResponse()));
 });
@@ -13,6 +13,26 @@ router.get("/", async (req: Request, res: Response) => {
 router.get("/:wordId", async (req: Request, res: Response) => {
   const word = await userWordService.get(req.params.wordId, req.userId);
   res.status(OK).json(word.toResponse());
+});
+
+router.post("/check-words", async (req: Request, res: Response) => {
+  console.log("IN ROUTER FUNCTION ");
+  const userId = req.userId;
+  const { wordIds } = req.body;
+
+  if (!Array.isArray(wordIds)) {
+    return res.status(400).json({ message: "wordIds must be an array" });
+  }
+
+  try {
+    const existingWordIds = await userWordService.checkLearnedWords(
+      userId,
+      wordIds
+    );
+    res.status(OK).json({ existingWordIds });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
 router.post("/:wordId", async (req: Request, res: Response) => {

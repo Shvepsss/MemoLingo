@@ -1,9 +1,7 @@
-import { Router } from "express";
+const router = require("express").Router({ mergeParams: true });
 import { Request, Response } from "app/types";
 import { OK } from "http-status-codes";
 import * as userService from "../users/user.service";
-
-const router = Router();
 
 router.post("/", async (req: Request, res: Response) => {
   try {

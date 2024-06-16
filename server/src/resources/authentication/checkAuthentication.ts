@@ -29,7 +29,11 @@ const checkAuthentication = (
     return next();
   }
 
-  if (req.path === USERS_PATH || (LOGING_PATH && req.method === "POST")) {
+  if (
+    req.path === USERS_PATH ||
+    (req.path === LOGING_PATH && req.method === "POST")
+  ) {
+    console.log("USER PATH");
     return next();
   }
 

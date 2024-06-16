@@ -1,8 +1,7 @@
-import { Router } from "express";
+const router = require("express").Router({ mergeParams: true });
 import { OK } from "http-status-codes";
 import * as tokenService from "./token.service";
 import { Request, Response } from "app/types";
-const router = Router();
 
 router.get("/", async (req: Request, res: Response) => {
   const { userId, tokenId } = req;
