@@ -1,19 +1,14 @@
-import { SectionList } from 'react-native';
-
 import { MainLayout } from 'app/shared/components/layout/MainLayout';
 import { Button, Typography } from 'app/shared/components/ui';
-import { SectionHeader } from 'app/shared/components/ui/SectionHeader';
 import { APP_URL } from 'app/shared/constants/url';
 import { useRouter } from 'app/shared/hooks/navigation';
-import { useAuth } from 'app/shared/hooks/providers/useAuth';
-
-import { SectionItem } from './homeComponents/SectionItem';
-import { Section1Data, Section2Data } from './mockData';
 // Not used right now in proper way  - now for navigation
-export const HomePage = () => {
-  const { credentials, logout } = useAuth();
-  const router = useRouter();
+import { useAuthLogic } from 'app/shared/providers/auth/useAuthLogic';
 
+export const HomePage = () => {
+  // PAGE IS USED FOR TESTING FUNCTIONALITY OF OTHER FEATURES NOW
+  const router = useRouter();
+  const { credentials, logout } = useAuthLogic();
   return (
     <MainLayout isScrollable={false} headerTitle="Memolingo">
       {credentials.userId ? (
@@ -28,7 +23,14 @@ export const HomePage = () => {
           <Button title="Log in" onPress={() => router.navigate(APP_URL.public.signIn.index)} />
         </>
       )}
-      <SectionList
+
+      <Button title="Start lesson" onPress={() => router.navigate(APP_URL.private.lesson.index)} />
+      <Button
+        title="Log in"
+        titleVariant="h3"
+        onPress={() => router.navigate(APP_URL.public.signUp.profile)}
+      />
+      {/* <SectionList
         sections={[
           ...Section1Data,
           ...Section1Data,
@@ -42,7 +44,7 @@ export const HomePage = () => {
         )}
         keyExtractor={item => item.id}
         stickySectionHeadersEnabled
-      />
+      /> */}
     </MainLayout>
   );
 };
