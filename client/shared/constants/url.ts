@@ -23,6 +23,9 @@ export const APP_URL = {
     search: {
       index: '/search',
     },
+    lesson: {
+      index: '/lesson',
+    },
   },
   api: {
     signIn: '/sign-in',
