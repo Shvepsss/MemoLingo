@@ -1,3 +1,4 @@
+export { MascotteMessage } from './MascotteMessage';
 export { View, type ViewProps } from './View';
 export { Typography, type TypographyProps } from './Typography';
 export { VectorIcon } from './VectorIcon';
@@ -12,3 +13,4 @@ export { Form } from './Form';
 export { ScrollView } from './ScrollView';
 export { TouchableOpacity } from './TouchableOpacity';
 export { ProgressBar } from './ProgressBar';
+export { AudioButtons } from './AudioButtons';
