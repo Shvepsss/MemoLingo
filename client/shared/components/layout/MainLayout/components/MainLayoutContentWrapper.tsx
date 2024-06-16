@@ -1,14 +1,27 @@
 import { View, ScrollView } from 'app/shared/components/ui';
-import * as S from 'app/shared/styles/@style-atoms';
+import { getDynamicStylesInput, useDynamicStyles } from 'app/shared/hooks/styles/useDynamicStyles';
 
 import { MainLayoutContentProps } from '../types';
 
+const dynamicStyles = getDynamicStylesInput(() => {
+  return {
+    scrollContainer: {
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+    },
+    container: {
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+      flex: 1,
+    },
+  };
+});
+
 export const MainLayoutContentWrapper = ({ children, isScrollable }: MainLayoutContentProps) => {
+  const styles = useDynamicStyles(dynamicStyles);
   if (isScrollable) {
-    return (
-      <ScrollView style={[S.spaceHorizontal.px10, S.spaceVertical.px5]}>{children}</ScrollView>
-    );
+    return <ScrollView style={styles.scrollContainer}>{children}</ScrollView>;
   }
 
-  return <View style={[S.flex.one, S.spaceHorizontal.px10, S.spaceVertical.px5]}>{children}</View>;
+  return <View style={styles.container}>{children}</View>;
 };

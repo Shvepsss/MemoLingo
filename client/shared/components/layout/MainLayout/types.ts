@@ -18,6 +18,4 @@ export type MainLayoutProps = MainLayoutHeaderProps &
     footer?: React.ReactNode;
   };
 
-export type MainLayoutFooterProps = {
-  children: React.ReactNode;
-};
+export type MainLayoutFooterProps = Pick<MainLayoutProps, 'footer'>;

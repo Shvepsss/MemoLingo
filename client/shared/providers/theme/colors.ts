@@ -27,7 +27,7 @@ export const customColors = {
   warning60: '#EFDD9D',
   warning40: '#F4E8BD',
   warning20: '#FAF4DE',
-  error100: '#E25C5C',
+  error100: '#B92943',
   error80: '#E87D7D',
   error60: '#EE9D9D',
   error40: '#F3BEBE',
