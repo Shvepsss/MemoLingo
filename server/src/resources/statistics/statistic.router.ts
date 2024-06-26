@@ -2,7 +2,8 @@ import { OK } from "http-status-codes";
 
 import * as statisticService from "./statistic.service";
 import { Request, Response } from "app/types";
-const router = require("express").Router({ mergeParams: true });
+import { Router } from "express";
+const router = Router({ mergeParams: true });
 
 router.get("/", async (req: Request, res: Response) => {
   const statistic = await statisticService.get(req.userId);

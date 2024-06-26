@@ -19,8 +19,6 @@ export const errorResponse = (errors: any[]) => {
 
 export const validator = (schema: Joi.ObjectSchema<any>, property: string) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    // req.bod
-    console.log({ body: req.body });
     // @ts-expect-error
     const { error } = schema.validate(req[property]);
     if (error) {

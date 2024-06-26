@@ -1,5 +1,6 @@
 import { OK } from "http-status-codes";
-const router = require("express").Router({ mergeParams: true });
+import { Router } from "express";
+const router = Router({ mergeParams: true });
 import { Request, Response } from "app/types";
 import * as wordService from "./word.service";
 import { BAD_REQUEST_ERROR } from "../../errors/appErrors";

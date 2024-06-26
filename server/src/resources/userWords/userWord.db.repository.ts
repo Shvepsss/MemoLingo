@@ -17,7 +17,6 @@ const get = async (wordId: string, userId: string) => {
 
 const checkLearnedWords = async (userId: string, wordIds: string[]) => {
   try {
-    console.log("REPOSITORY FUNCTIOn");
     const userWords = await UserWord.find({
       userId,
       wordId: { $in: wordIds.map((id) => id) },
@@ -27,7 +26,7 @@ const checkLearnedWords = async (userId: string, wordIds: string[]) => {
 
     const learnedWordsMap = wordIds.map((id) => ({
       id,
-      exists: userWords.some((word: any) => word.wordId.toString() === id),
+      learned: userWords.some((word: any) => word.wordId.toString() === id),
     }));
     return learnedWordsMap;
   } catch (err) {

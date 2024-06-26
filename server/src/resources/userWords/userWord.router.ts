@@ -1,11 +1,11 @@
 import { OK, NO_CONTENT } from "http-status-codes";
-const router = require("express").Router({ mergeParams: true });
+import { Router } from "express";
+const router = Router({ mergeParams: true });
 import { Request, Response } from "app/types";
 import userWordService from "./userWord.service";
 import { UserWordDocument } from "./userWord.model";
 
 router.get("/", async (req: Request, res: Response) => {
-  console.log("server", req);
   const userWords = await userWordService.getAll(req.userId);
   res.status(OK).json(userWords.map((w: UserWordDocument) => w.toResponse()));
 });
@@ -16,7 +16,6 @@ router.get("/:wordId", async (req: Request, res: Response) => {
 });
 
 router.post("/check-words", async (req: Request, res: Response) => {
-  console.log("IN ROUTER FUNCTION ");
   const userId = req.userId;
   const { wordIds } = req.body;
 
