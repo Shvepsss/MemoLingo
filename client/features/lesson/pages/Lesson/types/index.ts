@@ -1,8 +1,4 @@
-import { EXERCISE_TYPES, EXERCISE_VARIANTS } from 'app/shared/features/exerciseCreator/constants';
-
-import { Level } from '../provider/LessonProvider/constants';
-
-export type serverWordType = {
+export type ServerWordType = {
   id: string;
   group: number;
   page: number;
@@ -18,7 +14,10 @@ export type serverWordType = {
   textMeaningTranslate: string;
   wordTranslate: string;
 };
-export type clientWordType = Pick<serverWordType, 'id' | 'image' | 'audio'> & {
+export type ClientWordType = {
+  id: string;
+  image: string;
+  audio: string;
   original: string;
   translation: string;
   example: string;
@@ -29,16 +28,6 @@ export type clientWordType = Pick<serverWordType, 'id' | 'image' | 'audio'> & {
   meaningTransaltion: string;
 };
 
-export type WordsRequestProps = {
-  level: Level;
-};
-
 export type ImageRequestProps = {
   fileEndpoint: string;
-};
-export type Exercise = {
-  type: keyof typeof EXERCISE_TYPES;
-  variant: keyof typeof EXERCISE_VARIANTS;
-  data: clientWordType[];
-  answer: string;
 };

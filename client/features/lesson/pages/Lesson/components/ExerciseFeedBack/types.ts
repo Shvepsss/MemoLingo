@@ -6,4 +6,4 @@ export type ExerciseFeedbackProps = {
 export const EXERCISE_FEEDBACK_TYPES = {
   correct: 'correct',
   incorrect: 'incorrect',
-};
+} as const;

@@ -1,210 +1,227 @@
 import React from 'react';
 
-import { useTimer } from 'app/shared/hooks/timer/useTimer';
-import { normalizeString } from 'app/shared/utils/text/normalizeString';
-
 import { useFetchAndProcessWords } from '../../hooks';
 import { generateLessonExercises } from '../../utils/generateLessons';
-import { generateLessonSteps } from '../../utils/generateSteps';
 
-import { LESSON_CONTEXT_DEFAULT_VALUE, LessonContext } from './LessonContext';
-import { LessonProviderProps, exerciseSteps, introSteps, lessonSteps, Statistic } from './types';
+import { LessonContext } from './LessonContext';
+import {
+  LessonProviderProps,
+  Statistic,
+  LessonContextType,
+  ExerciseStatus,
+  CheckpointType,
+  ExerciseItem,
+} from './types';
+
+const fiveInRow = 5;
+const XPMistake = 1;
+const XPAtFirst = 2;
+
+const getCorrectInRow = (exercises: LessonContextType['exercises']) => {
+  return exercises.reduceRight<{
+    counter: number;
+    didFail: boolean;
+  }>(
+    (acc, cur) => {
+      if (acc.didFail) {
+        return acc;
+      }
+
+      if (cur.status === ExerciseStatus.completed) {
+        return {
+          ...acc,
+          counter: acc.counter + 1,
+        };
+      }
+
+      if (cur.status === ExerciseStatus.failed) {
+        return {
+          ...acc,
+          didFail: true,
+        };
+      }
+
+      return acc;
+    },
+    { counter: 0, didFail: false },
+  ).counter;
+};
+
+const getCheckpointType = (items: ExerciseItem[], activeItemIndex: number) => {
+  const newCorrectInRowCounter = getCorrectInRow(items);
+
+  if (newCorrectInRowCounter === fiveInRow) {
+    return CheckpointType.strike;
+  }
+
+  const nextIndex = activeItemIndex + 1;
+  const firstMistakeIndex = items.findIndex(item => item.failedExerciseId);
+  if (nextIndex === firstMistakeIndex) {
+    return CheckpointType.mistake;
+  }
+
+  if (nextIndex === items.length) {
+    return CheckpointType.finish;
+  }
+};
 
 export const LessonProvider = ({ children }: LessonProviderProps) => {
-  const [steps, setSteps] = React.useState<lessonSteps[] | null>(null);
-  const [currentStep, setCurrentStep] = React.useState<lessonSteps | null>(
-    LESSON_CONTEXT_DEFAULT_VALUE.step,
+  const { fetchAndProcessWords, isLoading } = useFetchAndProcessWords();
+  const [exercises, setExercises] = React.useState<LessonContextType['exercises']>([]);
+  const [timeStartedMs, setTimeStartedMs] = React.useState<number | null>(null);
+  const [timeEndedMs, setTimeEndedMs] = React.useState<number | null>(null);
+  const [checkpoint, setCheckpoint] = React.useState<CheckpointType | null>(null);
+  const currentExercise = exercises.find(item => item.isActiveStep);
+  console.log('currentExercise', currentExercise);
+  const correctInRowCounter = getCorrectInRow(exercises);
+
+  const firstAttemptExercises = exercises.filter(
+    item => item.status === ExerciseStatus.completed && !item.failedExerciseId,
   );
-  const [progress, setProgress] = React.useState<number>(0);
-  const [userAnswer, setUserAnswer] = React.useState<string>('');
-  const [isAnswerCorrect, setIsAnswerCorrect] = React.useState<boolean | null>(null);
-  const [correctInRowCounter, setCorrectInRowCounter] = React.useState<number>(0);
-  const [statistic, setStatistic] = React.useState<Statistic>({
-    totalXpEarned: 0,
-    totalExerciseTime: '',
-    accuracyPercentage: 0,
-  });
-  const { fetchAndProcessWords } = useFetchAndProcessWords();
-  const { startTimer, stopTimer, formattedTime } = useTimer();
 
-  const calculateProgress = React.useCallback((steps: lessonSteps[]) => {
-    if (!steps || steps.length === 0) return 0;
+  const finishedAttemptExercises = exercises.filter(
+    item => item.status !== ExerciseStatus.pending && !item.failedExerciseId,
+  );
 
-    const lessonExerciseSteps = steps.filter(step => {
-      return typeof step.id === 'string' && step.id.includes('step') && step.completed === true;
-    });
+  const accuracyPercentage = finishedAttemptExercises.length
+    ? (firstAttemptExercises.length / finishedAttemptExercises.length) * 100
+    : null;
 
-    const totalCompletedSteps = lessonExerciseSteps.length;
-
-    if (totalCompletedSteps === 0) return 0;
-
-    const totalSteps = steps.filter(
-      step => typeof step.id === 'string' && step.id.includes('step'),
-    ).length;
-
-    return totalCompletedSteps / totalSteps;
-  }, []);
-  const handleAnswerChoice = React.useCallback((answer: string) => {
-    setUserAnswer(answer);
-    console.log('ANSWER IS SET', answer);
-  }, []);
-
-  const handleAnswerSubmit = React.useCallback(() => {
-    const exerciseStep = currentStep as exerciseSteps;
-    const isCorrect = normalizeString(userAnswer) === normalizeString(exerciseStep.answer);
-    setIsAnswerCorrect(isCorrect);
-
-    if (isCorrect && steps) {
-      setCorrectInRowCounter(prev => prev + 1);
-      setSteps(prevSteps => {
-        if (!prevSteps) return null;
-
-        setStatistic(prevStats => {
-          const newStats = { ...prevStats };
-
-          if (!exerciseStep.id.includes('mistake')) {
-            newStats.totalXpEarned += 2;
-          } else {
-            newStats.totalXpEarned += 1;
-          }
-
-          return newStats;
-        });
-
-        const currentIndex = prevSteps.findIndex(step => step === currentStep);
-        if (currentIndex !== -1) {
-          const updatedStep = { ...prevSteps[currentIndex], completed: true };
-          const updatedSteps = [...prevSteps];
-          updatedSteps[currentIndex] = updatedStep;
-
-          if (correctInRowCounter === 5) {
-            const introStep = {
-              id: 'row',
-              type: 'row',
-              completed: false,
-            } as introSteps;
-            updatedSteps.splice(currentIndex + 1, 0, introStep);
-          }
-
-          setCurrentStep(updatedStep);
-          setProgress(calculateProgress(updatedSteps));
-          return updatedSteps;
-        }
-
-        return prevSteps;
-      });
-    } else {
-      setCorrectInRowCounter(0);
-      setSteps(prevSteps => {
-        if (!prevSteps) return null;
-
-        const finishIndex = prevSteps.findIndex(step => step.type === 'finish');
-
-        const mistakeStep: exerciseSteps = {
-          ...exerciseStep,
-          completed: false,
-          id: `${exerciseStep.id}-mistake`,
-        };
-
-        const newSteps = [...prevSteps];
-        newSteps.splice(finishIndex, 0, mistakeStep);
-
-        if (!prevSteps.some(step => step.type === 'mistake')) {
-          const introMistakeStep = {
-            type: 'mistake',
-            id: 'mistake',
-            completed: false,
-          } as introSteps;
-          newSteps.splice(finishIndex, 0, introMistakeStep);
-        }
-
-        return newSteps;
-      });
+  const totalXpEarned = exercises.reduce<number>((acc, currentExercise) => {
+    if (currentExercise.status === ExerciseStatus.completed) {
+      const itemXp = currentExercise.failedExerciseId ? XPMistake : XPAtFirst;
+      return acc + itemXp;
     }
-  }, [calculateProgress, correctInRowCounter, currentStep, steps, userAnswer]);
+
+    return acc;
+  }, 0);
+  const totalExerciseTimeMs = timeStartedMs && timeEndedMs ? timeEndedMs - timeStartedMs : null;
+  const statistic = React.useMemo(
+    () => ({
+      totalXpEarned,
+      totalExerciseTimeMs,
+      accuracyPercentage,
+    }),
+    [accuracyPercentage, totalExerciseTimeMs, totalXpEarned],
+  ) satisfies Statistic;
+
+  const progress = exercises.length
+    ? exercises.filter(item => item.status === ExerciseStatus.completed).length /
+      exercises.filter(item => item.status !== ExerciseStatus.failed).length
+    : 0;
 
   const goToNextStep = React.useCallback(() => {
-    console.log('CURRENT STEP IS', currentStep?.type);
+    setExercises(_items => {
+      const activeItemIndex = _items.findIndex(item => item.isActiveStep);
+      const activeItem = _items[activeItemIndex];
 
-    if (steps && steps.length > 0) {
-      const currentIndex = steps.findIndex(step => step === currentStep);
+      if (activeItem.status === ExerciseStatus.pending) {
+        return _items;
+      }
 
-      if (currentIndex < steps.length - 1) {
-        const newCurrentStep = steps[currentIndex + 1];
-        if (newCurrentStep.type === 'finish') {
-          stopTimer();
-          const totalSteps = steps.filter(
-            step =>
-              typeof step.id === 'string' &&
-              step.id.includes('step') &&
-              !step.id.includes('mistake'),
-          ).length;
-          const mistakeSteps = steps.filter(
-            step => typeof step.id === 'string' && step.id.includes('mistake'),
-          ).length;
+      const checkpointType = getCheckpointType(_items, activeItemIndex);
 
-          setStatistic(prevStats => ({
-            ...prevStats,
-            totalExerciseTime: formattedTime(),
-            accuracyPercentage: ((totalSteps - mistakeSteps) / totalSteps) * 100,
-          }));
+      if (checkpointType) {
+        setCheckpoint(checkpointType);
+      }
+
+      return _items.map((item, index) => {
+        if (index === activeItemIndex + 1) {
+          return {
+            ...item,
+            isActiveStep: true,
+          };
         }
 
-        setCurrentStep(newCurrentStep);
-      }
+        if (item.isActiveStep) {
+          return {
+            ...item,
+            isActiveStep: false,
+          };
+        }
 
-      setUserAnswer('');
-    }
-  }, [currentStep, formattedTime, steps, stopTimer]);
+        return item;
+      });
+    });
+  }, []);
 
-  const goToPreviousStep = React.useCallback(() => {
-    if (steps && steps.length > 0) {
-      const currentIndex = steps.findIndex(step => step === currentStep);
-      if (currentIndex > 0) {
-        setCurrentStep(steps[currentIndex - 1]);
-      }
-    }
-  }, [currentStep, steps]);
+  const exitCheckpoint = React.useCallback(() => {
+    setCheckpoint(null);
+  }, []);
 
-  const contextValue = React.useMemo(
+  const updateExercise = React.useCallback<LessonContextType['updateExercise']>(
+    (exerciseId, data) => {
+      setExercises(_items => {
+        let newItem: LessonContextType['exercises'][number] | undefined;
+
+        const updatedItems = _items.map(item => {
+          if (item.id === exerciseId) {
+            if (data.status === ExerciseStatus.failed) {
+              newItem = {
+                id: `${item.id}failed`,
+                failedExerciseId: item.id,
+                isActiveStep: false,
+                status: ExerciseStatus.pending,
+                content: item.content,
+              };
+            }
+
+            return {
+              ...item,
+              ...data,
+            };
+          }
+
+          return item;
+        });
+
+        if (newItem) {
+          updatedItems.push(newItem);
+        }
+
+        return updatedItems;
+      });
+    },
+    [],
+  );
+
+  const contextValue = React.useMemo<LessonContextType>(
     () => ({
-      step: currentStep,
-      steps,
-      goToNextStep,
-      goToPreviousStep,
-      handleAnswerChoice,
-      handleAnswerSubmit,
       progress,
-      isAnswerCorrect,
-      userAnswer,
+      exercises,
+      currentExercise,
+      setExercises,
+      goToNextStep,
       statistic,
+      correctInRowCounter,
+      isLoading,
+      exitCheckpoint,
+      checkpoint,
+      addCheckpoint: setCheckpoint,
+      updateExercise,
     }),
     [
-      currentStep,
-      steps,
-      goToNextStep,
-      goToPreviousStep,
-      handleAnswerChoice,
-      handleAnswerSubmit,
       progress,
-      isAnswerCorrect,
-      userAnswer,
+      exercises,
+      currentExercise,
+      goToNextStep,
       statistic,
+      correctInRowCounter,
+      isLoading,
+      exitCheckpoint,
+      checkpoint,
+      updateExercise,
     ],
   );
 
   React.useEffect(() => {
     const fetchData = async () => {
       const data = await fetchAndProcessWords('beginner');
-      const exercises = data ? generateLessonExercises(data) : [];
-      const initialSteps = generateLessonSteps(exercises);
-      setSteps(initialSteps);
+      const exercisesData = data ? generateLessonExercises(data) : [];
 
-      if (initialSteps.length > 1) {
-        setCurrentStep(initialSteps[1]);
-      }
+      setExercises(exercisesData);
 
-      startTimer();
+      setTimeStartedMs(Date.now());
     };
 
     fetchData();

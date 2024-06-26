@@ -1,45 +1,23 @@
 import React from 'react';
 
-import { LessonContextType, introSteps } from './types';
-
-const INTRO_STEPS: { [key: string]: introSteps } = {
-  start: {
-    type: 'start',
-    id: 'start',
-    completed: false,
-  },
-  finish: {
-    type: 'finish',
-    id: 'finish',
-    completed: false,
-  },
-  mistake: {
-    type: 'mistake',
-    id: 'mistake',
-    completed: false,
-  },
-  row: {
-    type: 'row',
-    id: 'row',
-    completed: false,
-  },
-};
+import { LessonContextType } from './types';
 
 export const LESSON_CONTEXT_DEFAULT_VALUE: LessonContextType = {
-  isAnswerCorrect: null,
   progress: 0,
-  steps: null,
-  step: INTRO_STEPS.start,
+  exercises: [],
+  currentExercise: undefined,
+  updateExercise: () => {},
   goToNextStep: () => {},
-  goToPreviousStep: () => {},
-  handleAnswerChoice: () => {},
-  handleAnswerSubmit: () => {},
-  userAnswer: '',
   statistic: {
     totalXpEarned: 0,
-    totalExerciseTime: '',
-    accuracyPercentage: 0,
+    totalExerciseTimeMs: null,
+    accuracyPercentage: null,
   },
+  correctInRowCounter: 0,
+  isLoading: false,
+  checkpoint: null,
+  exitCheckpoint: () => {},
+  addCheckpoint: () => {},
 };
 
 export const LessonContext = React.createContext<LessonContextType>(LESSON_CONTEXT_DEFAULT_VALUE);

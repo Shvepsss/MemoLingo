@@ -6,56 +6,46 @@ import { ExerciseCreator } from 'app/shared/features/exerciseCreator';
 import { useTheme } from 'app/shared/hooks/styles';
 
 import { Loader, LessonSatistic } from './components';
-import { ExerciseFeedback } from './components/ExerciseFeedback';
+import { ExerciseFeedback } from './components/ExerciseFeedBack/ExerciseFeedback';
+import { EXERCISE_FEEDBACK_TYPES } from './components/ExerciseFeedBack/types';
 import { LessonAnswerStrike } from './components/LessonAnswerStrike';
 import { LessonFooter } from './components/LessonFooter';
 import { LessonHeader } from './components/LessonHeader';
 import { LessonMistakes } from './components/LessonMistakes';
 import { LessonProvider, useLessonContext } from './provider';
-import { exerciseSteps, introSteps } from './provider/LessonProvider/types';
+import { ExerciseProvider } from './provider/ExerciseProvider/ExerciseProvider';
+import { useExerciseContext } from './provider/ExerciseProvider/useExerciseContext';
+import { CheckpointType, ExerciseStatus } from './provider/LessonProvider/types';
 
-const isIntroStep = (step: any): step is introSteps => {
-  return (
-    step.type === 'start' ||
-    step.type === 'finish' ||
-    step.type === 'mistake' ||
-    step.type === 'row'
-  );
-};
+const ExerciseContent = () => {
+  const { step: currentExercise } = useExerciseContext();
 
-const LessonContent = () => {
-  const { step, steps } = useLessonContext();
-
-  if (isIntroStep(step)) {
-    switch (step.type) {
-      case 'start':
-        return <Loader />;
-      case 'finish':
-        return <LessonSatistic />;
-      case 'mistake':
-        return <LessonMistakes />;
-      case 'row':
-        return <LessonAnswerStrike />;
-      default:
-        return null;
-    }
-  } else {
-    const exerciseStep = step as exerciseSteps;
-    console.log(
-      steps?.map(step => ({
-        id: step.id,
-        type: step.type,
-        completed: step.completed,
-      })),
-    );
-
+  if (currentExercise) {
     return (
       <ExerciseCreator
-        exerciseType={exerciseStep.type}
-        variant={exerciseStep.variant}
-        data={exerciseStep.data}
+        exerciseType={currentExercise.content.type}
+        variant={currentExercise.content.variant}
+        data={currentExercise.content.data}
       />
     );
+  }
+
+  return null;
+};
+
+const CheckPoint = ({ checkpoint }: { checkpoint: CheckpointType }) => {
+  if (checkpoint) {
+    switch (checkpoint) {
+      case CheckpointType.finish: {
+        return <LessonSatistic />;
+      }
+      case CheckpointType.strike: {
+        return <LessonAnswerStrike />;
+      }
+      case CheckpointType.mistake: {
+        return <LessonMistakes />;
+      }
+    }
   }
 };
 
@@ -64,42 +54,53 @@ const LessonContentCombined = () => {
   const { openBottomSheet, closeBottomSheet, bottomSheetModalRef } = useBottomSheetModal({
     initIsOpen: false,
   });
-  const { goToNextStep, progress, isAnswerCorrect, step, statistic } = useLessonContext();
-  const modalColor = isAnswerCorrect ? theme.colors.primary40 : theme.colors.error40;
-  const exerciseStep = step as exerciseSteps;
-  // console.log(statistic);
-  return (
-    <MainLayout
-      isScrollable={false}
-      header={<LessonHeader progress={progress} />}
-      footer={<LessonFooter onPress={openBottomSheet} />}
-    >
-      <LessonContent />
 
-      <BottomSheetModal
-        backgroundStyle={{ backgroundColor: modalColor }}
-        index={0}
-        ref={bottomSheetModalRef}
-        enableDismissOnClose
-        enablePanDownToClose
-        withOverlay={false}
+  const { goToNextStep, progress, currentExercise, isLoading, checkpoint } = useLessonContext();
+  const isAnswerCorrect = currentExercise?.status === ExerciseStatus.completed;
+  const modalColor = isAnswerCorrect ? theme.colors.primary40 : theme.colors.error40;
+  const exerciseId = currentExercise?.id;
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  return (
+    <ExerciseProvider key={exerciseId} stepId={exerciseId}>
+      <MainLayout
+        isScrollable={false}
+        header={<LessonHeader progress={progress} />}
+        footer={<LessonFooter onPress={openBottomSheet} />}
       >
-        <ExerciseFeedback
-          type={isAnswerCorrect ? 'correct' : 'incorrect'}
-          goToNextStep={() => {
-            goToNextStep();
-            closeBottomSheet();
-          }}
-          details={isAnswerCorrect ? undefined : exerciseStep.answer}
-        />
-      </BottomSheetModal>
-    </MainLayout>
+        {checkpoint ? <CheckPoint checkpoint={checkpoint} /> : <ExerciseContent />}
+
+        <BottomSheetModal
+          backgroundStyle={{ backgroundColor: modalColor }}
+          index={0}
+          ref={bottomSheetModalRef}
+          enableDismissOnClose
+          enablePanDownToClose
+          withOverlay={false}
+        >
+          <ExerciseFeedback
+            type={
+              isAnswerCorrect ? EXERCISE_FEEDBACK_TYPES.correct : EXERCISE_FEEDBACK_TYPES.incorrect
+            }
+            goToNextStep={() => {
+              closeBottomSheet();
+              goToNextStep();
+            }}
+            details={isAnswerCorrect ? null : currentExercise?.content.answer}
+          />
+        </BottomSheetModal>
+      </MainLayout>
+    </ExerciseProvider>
   );
 };
 
 export const LessonPage = () => {
   return (
     <LessonProvider>
+      {}
       <LessonContentCombined />
     </LessonProvider>
   );
