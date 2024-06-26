@@ -1,21 +1,28 @@
+import { API_URL } from 'app/shared/constants/url';
 import { useFetchFunction } from 'app/shared/hooks/fetcher/useFetchFunction';
+import { getDynamicApiUrl } from 'app/shared/utils/api/getDynamicApiUrl';
 
 import { LEVELS } from '../provider/LessonProvider/constants';
-import { WordsRequestProps, serverWordType } from '../types';
+import { WordsRequestProps } from '../provider/LessonProvider/types';
+import { ServerWordType } from '../types';
 
 import { useGetUserWords } from './useGetUserWords';
 
 export const useFetchWords = () => {
-  const { fetchApi, credentials } = useFetchFunction();
+  const { fetchApi, credentials, isLoading } = useFetchFunction();
   const { checkUserWords } = useGetUserWords();
 
   const sendRequest = async ({ level }: WordsRequestProps) => {
     const groups = LEVELS[level];
     const group = Math.floor(Math.random() * groups.length);
     const page = Math.floor(Math.random() * 30) + 1;
+    const params = {
+      page,
+      group,
+    };
     try {
-      const createResponse = await fetchApi<serverWordType[]>(
-        `/words?page=${page}&group=${group}`,
+      const createResponse = await fetchApi<ServerWordType[]>(
+        getDynamicApiUrl({ base: API_URL.words, params }),
         {
           method: 'GET',
         },
@@ -47,5 +54,5 @@ export const useFetchWords = () => {
     }
   };
 
-  return { sendRequest };
+  return { sendRequest, isLoading };
 };

@@ -1,27 +1,21 @@
-import { Level } from '../provider/LessonProvider/constants';
+import { useFetchWords } from 'app/features/lesson/pages/Lesson/hooks/useFetchWords';
+
+import { Level } from '../provider/LessonProvider/types';
+import { processWord } from '../utils/processWord';
 import { selectRandomElements } from '../utils/selectRandomElements';
 
-import { useFetchWordImage, useFetchAudio, useFetchWords } from './index';
+const wordsCount = 10;
 
 export const useFetchAndProcessWords = () => {
-  const { sendRequest } = useFetchWords();
-  const { sendAudioRequest } = useFetchAudio();
-  const { sendImageRequest } = useFetchWordImage();
+  const { sendRequest, isLoading } = useFetchWords();
+
   const fetchAndProcessWords = async (level: Level) => {
     try {
       const words = await sendRequest({ level });
       if (words) {
-        const selectedWords = selectRandomElements({ array: words, count: 10 });
-
-        const processedWords = await Promise.all(
-          selectedWords.map(async word => ({
-            ...word,
-            audio: await sendAudioRequest({ fileEndpoint: word.audio }),
-            audioExample: await sendAudioRequest({ fileEndpoint: word.audioExample }),
-            audioMeaning: await sendAudioRequest({ fileEndpoint: word.audioMeaning }),
-            image: await sendImageRequest({ fileEndpoint: word.image }),
-          })),
-        );
+        const selectedWords = selectRandomElements({ array: words, count: wordsCount });
+        const processedWordsPromises = selectedWords.map(word => processWord(word));
+        const processedWords = await Promise.all(processedWordsPromises);
 
         return processedWords;
       }
@@ -30,5 +24,5 @@ export const useFetchAndProcessWords = () => {
     }
   };
 
-  return { fetchAndProcessWords };
+  return { fetchAndProcessWords, isLoading };
 };

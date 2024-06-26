@@ -1,11 +1,11 @@
 import { EXERCISE_TYPES, EXERCISE_VARIANTS } from 'app/shared/features/exerciseCreator/constants';
 
-import { clientWordType } from '../types';
+import { ClientWordType } from '../types';
 
 export const getAnswerGenerator = (
   exerciseType: keyof typeof EXERCISE_TYPES,
   variant: keyof typeof EXERCISE_VARIANTS,
-  data: clientWordType[],
+  data: ClientWordType[],
 ) => {
   switch (exerciseType) {
     case EXERCISE_TYPES.match:
@@ -16,8 +16,6 @@ export const getAnswerGenerator = (
           return data[1].original;
         case EXERCISE_VARIANTS.audio:
           return data[2].original;
-        case EXERCISE_VARIANTS.pairs:
-          return data.map(word => word.original);
         default:
           return null;
       }

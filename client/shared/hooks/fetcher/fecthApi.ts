@@ -16,7 +16,7 @@ export const fetchApi = async <Response extends any>(url: string, fetchOptions: 
 
   const contentType = data.headers.get('content-type');
   if (contentType && contentType.includes('application/json')) {
-    return data.json();
+    return data.json() as Response;
   } else {
     return data as Response;
   }

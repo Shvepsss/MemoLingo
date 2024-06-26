@@ -27,12 +27,14 @@ export const APP_URL = {
       index: '/lesson',
     },
   },
-  api: {
-    signIn: '/sign-in',
-    signUp: '/users',
-  },
 } as const;
 
-export const API_URLS = Object.values(APP_URL.api);
+export const API_URL = {
+  signIn: '/sign-in',
+  signUp: '/users',
+  words: '/words',
+};
+
+export const API_URLS = Object.values(API_URL);
 
 export type ApiUrl = (typeof API_URLS)[number];

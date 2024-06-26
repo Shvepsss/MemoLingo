@@ -1,16 +1,16 @@
-import { clientWordType } from '../types';
+import { ClientWordType } from '../types';
 
 export type removeExtraCharactersProps = {
-  object: clientWordType;
-  properties: Array<keyof clientWordType>;
+  object: ClientWordType;
+  properties: Array<keyof ClientWordType>;
 };
 
 export const removeExtraCharacters = ({ object, properties }: removeExtraCharactersProps) => {
-  const cleanObject: Partial<clientWordType> = { ...object };
+  const cleanObject: Partial<ClientWordType> = { ...object };
   properties.forEach(prop => {
     if (object[prop]) {
       cleanObject[prop] = object[prop].replace(/<[^>]*>/g, '');
     }
   });
-  return cleanObject as clientWordType;
+  return cleanObject as ClientWordType;
 };
