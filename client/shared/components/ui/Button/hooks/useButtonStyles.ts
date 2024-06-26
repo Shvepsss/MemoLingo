@@ -6,6 +6,8 @@ import { type SharedValue, useAnimatedStyle, withTiming } from 'app/shared/style
 import { BUTTON_RADIUS } from '../constants';
 import { ButtonProps } from '../types';
 
+const BASE_HEIGHT = 50;
+
 type UseButtonStylesProps = Pick<
   Required<ButtonProps>,
   'backgroundColor' | 'titleColor' | 'disabled' | 'radius'
@@ -35,7 +37,7 @@ export const useButtonStyles = ({
   const pressableBaseStyle = {
     backgroundColor: disabled ? theme.colors.black40 : theme.colors[backgroundColor || 'primary60'],
     borderRadius: BUTTON_RADIUS[radius],
-    height: 50,
+    height: BASE_HEIGHT,
     width: '100%',
     alignItems: 'center',
     justifyContent: spaceBetween ? 'space-between' : 'center',

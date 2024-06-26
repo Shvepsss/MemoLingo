@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { APP_URL } from 'app/shared/constants/url';
+import { API_URL } from 'app/shared/constants/url';
 import { fetchApi } from 'app/shared/hooks/fetcher/fecthApi';
 import { useStorageData, useStorageUpdate } from 'app/shared/hooks/providers';
 
 import { AuthCredentials } from './types';
 
-const LOGIN_URL = APP_URL.api.signIn;
-const SIGN_UP_URL = APP_URL.api.signUp;
+const LOGIN_URL = API_URL.signIn;
+const SIGN_UP_URL = API_URL.signUp;
 
 export const useAuthLogic = () => {
   const { credentials } = useStorageData();
@@ -24,6 +24,9 @@ export const useAuthLogic = () => {
         body: JSON.stringify(body),
         method: 'POST',
       });
+      if (!newCreds.token) {
+        throw new Error('Failed to sign in');
+      }
 
       updateStorage({
         type: '@auth/login',
@@ -61,6 +64,10 @@ export const useAuthLogic = () => {
         body: JSON.stringify(body),
         method: 'POST',
       });
+      if (!newCreds.token) {
+        throw new Error('Failed to sign up');
+      }
+
       updateStorage({
         type: '@auth/login',
         value: newCreds,

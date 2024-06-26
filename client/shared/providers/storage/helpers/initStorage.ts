@@ -7,12 +7,15 @@ export const initStorage = (): StorageContextType => {
     const store = storage.getString(STORAGE_KEY);
 
     if (store) {
-      const parsedStore = JSON.parse(store) as StorageContextType;
-
-      return {
-        ...INITIAL_STORAGE_CONTEXT,
-        ...parsedStore,
-      };
+      try {
+        const parsedStore = JSON.parse(store) as StorageContextType;
+        return {
+          ...INITIAL_STORAGE_CONTEXT,
+          ...parsedStore,
+        };
+      } catch (err) {
+        return { ...INITIAL_STORAGE_CONTEXT };
+      }
     }
 
     return { ...INITIAL_STORAGE_CONTEXT };

@@ -7,9 +7,9 @@ import { APP_URL } from 'app/shared/constants/url';
 import { useRouter } from 'app/shared/hooks/navigation';
 import { useAuth } from 'app/shared/hooks/providers/useAuth';
 
-import { SectionItem } from './Components/SectionItem';
+import { SectionItem } from './homeComponents/SectionItem';
 import { Section1Data, Section2Data } from './mockData';
-
+// Not used right now in proper way  - now for navigation
 export const HomePage = () => {
   const { credentials, logout } = useAuth();
   const router = useRouter();

@@ -21,12 +21,10 @@ export const useSignInLogic = () => {
       const authResponse = await login(values);
       router.navigate(APP_URL.public.main.index);
       return authResponse;
-
-      // eslint-disable-next-line no-catch-shadow
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error('Authorization error:', error);
-        setError(error.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        console.error('Authorization error:', err);
+        setError(err.message);
       }
     }
   };
