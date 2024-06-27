@@ -1,11 +1,12 @@
 import { clientWordType } from 'app/features/lesson/pages/Lesson/types';
-import { Button, ViewProps } from 'app/shared/components/ui/index';
+import { Button, ViewProps } from 'app/shared/components/ui';
 import { useDynamicStyles, getDynamicStylesInput } from 'app/shared/hooks/styles/useDynamicStyles';
+import * as S from 'app/shared/styles/@style-atoms';
 
 type ButtonOptionProps = {
   title?: string;
   word: clientWordType;
-  selectedValue: string;
+  selectedValue: string | null;
   setSelectedValue: (word: clientWordType) => void;
   right?: React.ReactNode;
   left?: React.ReactNode;
@@ -17,13 +18,10 @@ const dynamicStylesInput = getDynamicStylesInput(theme => {
     selectedButton: {
       backgroundColor: theme.colors.black0,
       borderColor: theme.colors.primary60,
-      borderWidth: 2,
     },
     unselectedButton: {
       backgroundColor: theme.colors.black0,
       borderColor: theme.colors.black60,
-      borderWidth: 1,
-      width: '100%',
     },
   };
 });
@@ -45,8 +43,8 @@ export const ButtonOption = ({
       titleColor={selectedValue === word.original ? 'black100' : 'black80'}
       style={
         selectedValue === word.original
-          ? [styles.selectedButton, style]
-          : [styles.unselectedButton, style]
+          ? [S.border.wid2, styles.selectedButton, style]
+          : [S.width.full, S.border.wid1, styles.unselectedButton, style]
       }
       onPress={() => {
         setSelectedValue(word);

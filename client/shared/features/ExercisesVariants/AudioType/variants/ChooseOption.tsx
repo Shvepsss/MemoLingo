@@ -1,56 +1,43 @@
 import React from 'react';
 
 import { clientWordType } from 'app/features/lesson/pages/Lesson/types';
-import { View, MascotteMessage, VectorIcon, IconLocal } from 'app/shared/components/ui/index';
-import { getDynamicStylesInput, useDynamicStyles } from 'app/shared/hooks/styles/useDynamicStyles';
+import { View, MascotteMessage, VectorIcon, IconLocal } from 'app/shared/components/ui';
+import * as S from 'app/shared/styles/@style-atoms';
 import { mixArray } from 'app/shared/utils/data/mixArray';
 
 import { ButtonOption } from '../../MatchType/components/ButtonOption';
 import { ChooseOptionProps } from '../types';
 
-const dynamicStylesInput = getDynamicStylesInput(() => {
-  return {
-    commonContainer: {
-      flex: 1,
-      gap: 30,
-    },
-    buttonsContainer: {
-      alignItems: 'center',
-      gap: 30,
-      flex: 1,
-    },
-  };
-});
 const ICON_SIZE = 30;
+const EQUILIZIER_SIZE = 100;
+const BUTTON_SIZE = 200;
 
 export const ChooseOption = ({ data, handleAnswerChoice, handlePlayer }: ChooseOptionProps) => {
-  const [selectedOption, setSelectedOption] = React.useState<string>('');
+  const [selectedOption, setSelectedOption] = React.useState<string | null>(null);
+  const [audioExercises] = React.useState(mixArray(data));
   const sentenceToPlay = data[1].audioMeaning;
-  const audioExercises = React.useMemo(() => mixArray(data.slice(0, 2)), [data]);
-  const styles = useDynamicStyles(dynamicStylesInput);
 
   const handleChoice = React.useCallback(
     (word: clientWordType) => {
       handlePlayer(word.audio);
-      console.log(word.original);
       setSelectedOption(word.original);
       handleAnswerChoice(word.original);
     },
     [handleAnswerChoice, handlePlayer],
   );
   return (
-    <View style={styles.commonContainer}>
+    <View style={[S.flex.one, S.gapAll.gx15]}>
       <MascotteMessage mascotteVariant="audio" data={sentenceToPlay} sizeVariant="regular" />
-      <View style={styles.buttonsContainer}>
-        {audioExercises.map((word: clientWordType) => (
+      <View style={[S.flex.one, S.gapAll.gx15, S.alignFlex.aCenter]}>
+        {audioExercises.map(word => (
           <ButtonOption
             word={word}
             key={word.id}
             setSelectedValue={handleChoice}
             selectedValue={selectedOption}
             left={<VectorIcon iconName="audio" color="primary60" size={ICON_SIZE} />}
-            right={<IconLocal icon="equilizer" size={100} />}
-            style={{ width: '60%' }}
+            right={<IconLocal icon="equilizer" size={EQUILIZIER_SIZE} />}
+            style={{ width: BUTTON_SIZE }}
           />
         ))}
       </View>

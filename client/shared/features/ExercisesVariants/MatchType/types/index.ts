@@ -7,10 +7,15 @@ export type CardProps = {
   id: string;
   text: string;
   image?: string;
-  type: 'image' | 'text';
+  type: keyof typeof CARD_TYPE;
   onPress: (id: any, text: any) => void;
   isSelected: boolean;
 };
+
+export const CARD_TYPE = {
+  image: 'image',
+  text: 'text',
+} as const;
 
 export type MatchTranslationProps = {
   words: clientWordType[];

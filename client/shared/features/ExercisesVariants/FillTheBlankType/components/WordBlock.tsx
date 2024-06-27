@@ -1,24 +1,13 @@
-import { TouchableOpacity } from 'react-native';
-
-import { View, Typography } from 'app/shared/components/ui/index';
+import { View, Typography, TouchableOpacity } from 'app/shared/components/ui';
 import { getDynamicStylesInput, useDynamicStyles } from 'app/shared/hooks/styles/useDynamicStyles';
+import * as S from 'app/shared/styles/@style-atoms';
 
 import { WordBlockProps } from '../types/index';
 
 const dynamicStyles = getDynamicStylesInput(theme => {
   return {
     container: {
-      borderWidth: 1,
-      paddingHorizontal: 10,
-      paddingVertical: 5,
-      borderRadius: 10,
-      alignItems: 'center',
-      justifyContent: 'center',
       borderColor: theme.colors.primary60,
-      zIndex: 2,
-    },
-    content: {
-      flexDirection: 'row',
     },
   };
 });
@@ -30,9 +19,17 @@ export const WordBlock = ({ word, onSelectWord }: WordBlockProps) => {
     <TouchableOpacity
       key={word.id}
       onPress={() => onSelectWord(word.id, word.text)}
-      style={styles.container}
+      style={[
+        S.border.wid1,
+        S.zIndex.two,
+        S.alignFlex.bothCenter,
+        S.border.radx2Half,
+        S.spaceHorizontal.px5,
+        S.spaceVertical.px3,
+        styles.container,
+      ]}
     >
-      <View style={styles.content}>
+      <View style={[S.flex.row]}>
         <Typography variant="mediumTextRegular" color="black100">
           {word.text}
         </Typography>

@@ -7,6 +7,7 @@ export type AudioTypeProps = {
 };
 export type TypeWithInputProps = Pick<AudioTypeProps, 'data'> & {
   handleAnswerChoice: (answer: string) => void;
+  userAnswer: string | undefined;
 };
 export type ChooseOptionProps = Pick<AudioTypeProps, 'data'> & {
   handleAnswerChoice: (answer: string) => void;
