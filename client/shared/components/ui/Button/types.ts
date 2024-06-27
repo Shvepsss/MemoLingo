@@ -1,4 +1,4 @@
-import { ViewProps } from 'app/shared/components/ui/View';
+import { ViewProps } from 'app/shared/components/ui';
 import { type MD3Colors } from 'app/shared/providers/theme';
 
 import { type TypographyProps } from '../Typography';

@@ -1,4 +1,4 @@
-import { View } from 'app/shared/components/ui/index';
+import { View } from 'app/shared/components/ui';
 import * as S from 'app/shared/styles/@style-atoms';
 
 import { MainLayoutFooterProps } from '../types';

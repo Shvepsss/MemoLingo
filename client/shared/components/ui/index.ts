@@ -1,7 +1,7 @@
 export { View, type ViewProps } from './View';
 export { Typography, type TypographyProps } from './Typography';
 export { VectorIcon } from './VectorIcon';
-export { IconLocal } from './IconLocal';
+export { IconLocal, type IconLocalProps } from './IconLocal';
 export { Button, type ButtonProps } from './Button';
 export { TextInput } from './TextInput';
 export { FormController } from './FormController';
@@ -10,3 +10,5 @@ export { SectionList } from './SectionList';
 export { SectionHeader } from './SectionHeader';
 export { Form } from './Form';
 export { ScrollView } from './ScrollView';
+export { TouchableOpacity } from './TouchableOpacity';
+export { ProgressBar } from './ProgressBar';

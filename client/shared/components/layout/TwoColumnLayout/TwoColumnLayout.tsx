@@ -1,25 +1,14 @@
 import React from 'react';
 
 import { View } from 'app/shared/components/ui';
-import { getDynamicStylesInput, useDynamicStyles } from 'app/shared/hooks/styles/useDynamicStyles';
+import * as S from 'app/shared/styles/@style-atoms';
 
 import { ColumnWrapper } from './components/ColumnWrapper';
 import { type ColumnLayoutProps } from './types';
 
-const dynamicStyles = getDynamicStylesInput(() => {
-  return {
-    twoColumnContainer: {
-      flex: 1,
-      flexDirection: 'row',
-      gap: 15,
-    },
-  };
-});
-
 const ColumnLayoutBase = ({ column1, column2, column1Props, column2Props }: ColumnLayoutProps) => {
-  const styles = useDynamicStyles(dynamicStyles);
   return (
-    <View style={styles.twoColumnContainer}>
+    <View style={[S.flex.one, S.flex.row, S.gapAll.gx8]}>
       <ColumnWrapper style={column1Props}>{column1}</ColumnWrapper>
       <ColumnWrapper style={column2Props}>{column2}</ColumnWrapper>
     </View>

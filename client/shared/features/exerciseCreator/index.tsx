@@ -1,27 +1,17 @@
-import { View } from 'app/shared/components/ui/index';
-import { getDynamicStylesInput, useDynamicStyles } from 'app/shared/hooks/styles/useDynamicStyles';
+import { View } from 'app/shared/components/ui';
+import * as S from 'app/shared/styles/@style-atoms';
 
 import { ExerciseContent } from './ExerciseContent';
 import { ExerciseText } from './ExerciseText';
 import { ExerciseTypes, ExerciseComponentProps } from './types';
-
-const dynamicStyles = getDynamicStylesInput(() => {
-  return {
-    container: {
-      flex: 1,
-      gap: 15,
-    },
-  };
-});
 
 export const ExerciseCreator = <T extends ExerciseTypes>({
   exerciseType,
   variant,
   data,
 }: ExerciseComponentProps<T>) => {
-  const styles = useDynamicStyles(dynamicStyles);
   return (
-    <View style={styles.container}>
+    <View style={[S.flex.one, S.gapAll.gx7]}>
       <ExerciseText exerciseType={exerciseType} variant={variant} />
       <ExerciseContent exerciseType={exerciseType} variant={variant} data={data} />
     </View>

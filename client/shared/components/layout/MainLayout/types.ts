@@ -1,4 +1,4 @@
-import { ViewProps } from 'app/shared/components/ui/View';
+import { ViewProps } from 'app/shared/components/ui';
 
 export type MainLayoutContentProps = {
   children: React.ReactNode;
