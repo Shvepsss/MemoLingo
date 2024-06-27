@@ -1,32 +1,17 @@
 import React from 'react';
 
-import { MascotteMessage } from 'app/shared/components/ui/MascotteMessage';
-import { View } from 'app/shared/components/ui/View';
-import { getDynamicStylesInput, useDynamicStyles } from 'app/shared/hooks/styles/useDynamicStyles';
+import { View, MascotteMessage } from 'app/shared/components/ui';
+import * as S from 'app/shared/styles/@style-atoms';
 
 import { LinesBlock } from '../../FillTheBlankType/components/LinesBlock';
 import { WordsBlocks } from '../../FillTheBlankType/components/WordsBlocks';
 import { mixSentences } from '../../FillTheBlankType/utils/mixSentences';
 import { TranslateWithBlocksProps } from '../types';
 
-const dynamicStyles = getDynamicStylesInput(() => {
-  return {
-    contentContainer: {
-      flex: 1,
-      gap: 10,
-    },
-    answerBlock: {
-      flex: 1,
-      gap: 20,
-    },
-  };
-});
-
 export const TranslateWithBlocks = ({ data, handleAnswer }: TranslateWithBlocksProps) => {
-  const styles = useDynamicStyles(dynamicStyles);
   const [selectedWords, setSelectedWords] = React.useState<{ id: string; text: string }[]>([]);
+  const [wordsToSelect] = React.useState(mixSentences(data[0]));
   const sentenceToTranslate = data[0].exampleTranslation;
-  const wordsToSelect = mixSentences(data[0]);
 
   const handleSelectWord = (id: string, text: string) => {
     setSelectedWords(prevSelectedWords => {
@@ -45,9 +30,9 @@ export const TranslateWithBlocks = ({ data, handleAnswer }: TranslateWithBlocksP
   );
 
   return (
-    <View style={styles.contentContainer}>
+    <View style={[S.flex.one, S.gapAll.gx5]}>
       <MascotteMessage mascotteVariant="base" data={sentenceToTranslate} sizeVariant="regular" />
-      <View style={styles.answerBlock}>
+      <View style={[S.flex.one, S.gapAll.gx10]}>
         <LinesBlock data={selectedWords} onSelectWord={handleSelectWord} />
         <WordsBlocks data={remainingWords} onSelectWord={handleSelectWord} />
       </View>

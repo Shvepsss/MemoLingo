@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { TextInput, View, MascotteMessage } from 'app/shared/components/ui/index';
+import { TextInput, View, MascotteMessage } from 'app/shared/components/ui';
 import { useTheme } from 'app/shared/hooks/styles';
 import { getDynamicStylesInput, useDynamicStyles } from 'app/shared/hooks/styles/useDynamicStyles';
+import * as S from 'app/shared/styles/@style-atoms';
 
 import { TranslateWithInputProps } from '../types';
 
@@ -10,10 +11,6 @@ const MIN_INPUT_HEIGHT = 260;
 
 const dynamicStylesInput = getDynamicStylesInput(theme => {
   return {
-    container: {
-      flex: 1,
-      gap: 25,
-    },
     input: {
       minHeight: MIN_INPUT_HEIGHT,
       fontFamily: theme.fonts.doubleExtraLargeRegular.fontFamily,
@@ -24,7 +21,7 @@ const dynamicStylesInput = getDynamicStylesInput(theme => {
 });
 
 export const TranslateWithInput = ({ data, handleAnswer }: TranslateWithInputProps) => {
-  const [inputValue, setInputValue] = React.useState<string>('');
+  const [inputValue, setInputValue] = React.useState<string | undefined>(undefined);
   const sentenceToTranslate = data[0].example;
   const handleChange = (value: string) => {
     setInputValue(value);
@@ -35,7 +32,7 @@ export const TranslateWithInput = ({ data, handleAnswer }: TranslateWithInputPro
   const styles = useDynamicStyles(dynamicStylesInput);
 
   return (
-    <View style={styles.container}>
+    <View style={[S.flex.one, S.gapAll.gx12]}>
       <MascotteMessage mascotteVariant="base" data={sentenceToTranslate} sizeVariant="regular" />
       <TextInput
         value={inputValue}

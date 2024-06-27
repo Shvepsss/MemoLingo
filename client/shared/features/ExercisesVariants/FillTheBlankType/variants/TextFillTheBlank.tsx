@@ -1,9 +1,7 @@
 import React from 'react';
 
-import { View } from 'react-native';
-
 import { clientWordType } from 'app/features/lesson/pages/Lesson/types';
-import { MascotteMessage } from 'app/shared/components/ui/MascotteMessage';
+import { MascotteMessage, View } from 'app/shared/components/ui';
 import * as S from 'app/shared/styles/@style-atoms';
 import { mixArray } from 'app/shared/utils/data/mixArray';
 
@@ -11,19 +9,21 @@ import { ButtonOption } from '../../MatchType/components/ButtonOption';
 import { FillTheBlankTextProps } from '../types';
 
 export const TextFillTheBlank = React.memo(({ data, handleAnswer }: FillTheBlankTextProps) => {
-  const [selectedButton, setSelectedButton] = React.useState<string>('');
-  const exerciseWords = React.useMemo(() => mixArray(data.slice(0, 3)), [data]);
+  const [exerciseWords] = React.useState(mixArray(data));
+  const underscore = '____';
+  const [selectedButton, setSelectedButton] = React.useState<string | null>(null);
   const sentenceToFill = data[0].example;
   const wordToDelete = data[0].original;
 
+  // Long underscore is used here to show blank space instead of word that should be selected to fill the sentence
   const modifiedSentence = React.useMemo(() => {
-    return sentenceToFill.replace(new RegExp(wordToDelete, 'g'), '____');
+    return sentenceToFill.replace(new RegExp(wordToDelete, 'g'), underscore);
   }, [sentenceToFill, wordToDelete]);
 
   const handleChoice = React.useCallback(
     (word: clientWordType) => {
       setSelectedButton(word.original);
-      const filledSentence = modifiedSentence.replace('____', word.original);
+      const filledSentence = modifiedSentence.replace(underscore, word.original);
       handleAnswer(filledSentence);
     },
     [modifiedSentence, handleAnswer],

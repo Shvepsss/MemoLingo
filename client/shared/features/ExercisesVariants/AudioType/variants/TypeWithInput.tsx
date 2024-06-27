@@ -1,8 +1,7 @@
-import React from 'react';
-
-import { View, TextInput, MascotteMessage } from 'app/shared/components/ui/index';
+import { View, TextInput, MascotteMessage } from 'app/shared/components/ui';
 import { useTheme } from 'app/shared/hooks/styles';
 import { useDynamicStyles, getDynamicStylesInput } from 'app/shared/hooks/styles/useDynamicStyles';
+import * as S from 'app/shared/styles/@style-atoms';
 
 import { TypeWithInputProps } from '../types';
 
@@ -10,10 +9,6 @@ const MIN_HEIGTH_INPUT = 240;
 
 const dynamicStylesInput = getDynamicStylesInput(theme => {
   return {
-    commonContainer: {
-      flex: 1,
-      gap: 20,
-    },
     input: {
       minHeight: MIN_HEIGTH_INPUT,
       fontFamily: theme.fonts.doubleExtraLargeRegular.fontFamily,
@@ -23,10 +18,8 @@ const dynamicStylesInput = getDynamicStylesInput(theme => {
   };
 });
 
-export const TypeWithInput = ({ data, handleAnswerChoice }: TypeWithInputProps) => {
-  const [inputValue, setInputValue] = React.useState<string>('');
+export const TypeWithInput = ({ data, handleAnswerChoice, userAnswer }: TypeWithInputProps) => {
   const handleChange = (value: string) => {
-    setInputValue(value);
     handleAnswerChoice(value);
   };
 
@@ -35,10 +28,10 @@ export const TypeWithInput = ({ data, handleAnswerChoice }: TypeWithInputProps) 
   const styles = useDynamicStyles(dynamicStylesInput);
 
   return (
-    <View style={styles.commonContainer}>
+    <View style={[S.flex.one, S.gapAll.gx10]}>
       <MascotteMessage mascotteVariant="audio" sizeVariant="regular" data={sentenceToPlay} />
       <TextInput
-        value={inputValue}
+        value={userAnswer}
         onChangeText={handleChange}
         multiline={true}
         placeholder="Type here..."

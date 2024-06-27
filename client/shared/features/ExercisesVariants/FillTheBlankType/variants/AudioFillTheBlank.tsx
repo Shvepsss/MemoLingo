@@ -1,30 +1,16 @@
 import React from 'react';
 
 import { MascotteMessage, View } from 'app/shared/components/ui';
-import { getDynamicStylesInput, useDynamicStyles } from 'app/shared/hooks/styles/useDynamicStyles';
+import * as S from 'app/shared/styles/@style-atoms';
 
 import { LinesBlock } from '../components/LinesBlock';
 import { WordsBlocks } from '../components/WordsBlocks';
 import { FillBlankAudioProps } from '../types';
 import { mixSentences } from '../utils/mixSentences';
 
-const dynamicStyles = getDynamicStylesInput(() => {
-  return {
-    container: {
-      flex: 1,
-      gap: 20,
-    },
-    answerContainer: {
-      flex: 1,
-      gap: 20,
-    },
-  };
-});
-
 export const AudioFillTheBlank = ({ data, handleAnswer }: FillBlankAudioProps) => {
   const [selectedWords, setSelectedWords] = React.useState<{ id: string; text: string }[]>([]);
   const wordsToSelect = mixSentences(data[0]);
-  const styles = useDynamicStyles(dynamicStyles);
 
   const handleSelectWord = (id: string, text: string) => {
     setSelectedWords(prevSelectedWords => {
@@ -43,9 +29,9 @@ export const AudioFillTheBlank = ({ data, handleAnswer }: FillBlankAudioProps) =
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[S.flex.one, S.gapAll.gx10]}>
       <MascotteMessage mascotteVariant="audio" data={data[0].audioExample} sizeVariant="regular" />
-      <View style={styles.answerContainer}>
+      <View style={[S.flex.one, S.gapAll.gx10]}>
         <LinesBlock data={selectedWords} onSelectWord={handleSelectWord} />
         <WordsBlocks data={remainingWords} onSelectWord={handleSelectWord} />
       </View>

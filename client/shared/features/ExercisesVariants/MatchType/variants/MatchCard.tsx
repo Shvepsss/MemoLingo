@@ -3,28 +3,16 @@ import React from 'react';
 import { Button, Typography, VectorIcon, View } from 'app/shared/components/ui';
 import { useAudioPlayer } from 'app/shared/hooks/player/useAudioPlayer';
 import { useDynamicStyles, getDynamicStylesInput } from 'app/shared/hooks/styles/useDynamicStyles';
+import * as S from 'app/shared/styles/@style-atoms';
 import { capitalize } from 'app/shared/utils/text/capitalize';
 
 import { Card } from '../components/Card';
-import { MatchCardProps } from '../types';
+import { CARD_TYPE, MatchCardProps } from '../types';
 
-const CONTAINER_GAP = 10;
-const CONTAINER_PADDING = 10;
 const BUTTON_SIZE = 45;
 
 const dynamicStylesInput = getDynamicStylesInput(theme => {
   return {
-    cardContainer: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent: 'center',
-      padding: CONTAINER_PADDING,
-      gap: CONTAINER_GAP,
-    },
-    commonContainer: {
-      alignItems: 'center',
-      gap: 10,
-    },
     audioButton: {
       backgroundColor: theme.colors.black0,
       width: BUTTON_SIZE,
@@ -37,18 +25,17 @@ const dynamicStylesInput = getDynamicStylesInput(theme => {
 export const MatchCard = ({ words, type, handleChoice }: MatchCardProps) => {
   const styles = useDynamicStyles(dynamicStylesInput);
   const { handlePlayPause } = useAudioPlayer();
-  const wordToSelect = type === 'image' ? words[1] : words[2];
-  const exerciseWords = words.slice(0, 5);
-  const [selectedCardId, setSelectedCardId] = React.useState('');
+  const wordToSelect = type === CARD_TYPE.image ? words[1] : words[2];
+  const [selectedCardId, setSelectedCardId] = React.useState<string | null>(null);
 
   const handlePress = (id: string, text: string) => {
-    setSelectedCardId(prevSelectedId => (prevSelectedId === id ? '' : id));
+    setSelectedCardId(prevSelectedId => (prevSelectedId === id ? null : id));
     handleChoice(text);
   };
 
   return (
-    <View style={styles.commonContainer}>
-      {type === 'text' ? (
+    <View style={[S.alignFlex.aCenter, S.gapAll.gx5]}>
+      {type === CARD_TYPE.text ? (
         <Button
           title=""
           onPress={() => {
@@ -62,8 +49,8 @@ export const MatchCard = ({ words, type, handleChoice }: MatchCardProps) => {
           {capitalize(wordToSelect.translation)}
         </Typography>
       )}
-      <View style={styles.cardContainer}>
-        {exerciseWords.map(word => (
+      <View style={[S.flex.row, S.alignFlex.jCenter, S.flex.wrap, S.spaceAll.px5, S.gapAll.gx5]}>
+        {words.map(word => (
           <Card
             isSelected={selectedCardId === word.id}
             key={word.id}
