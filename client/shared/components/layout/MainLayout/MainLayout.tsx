@@ -4,7 +4,8 @@ import { View } from 'app/shared/components/ui';
 import * as S from 'app/shared/styles/@style-atoms';
 
 import { MainLayoutContentWrapper } from './components/MainLayoutContentWrapper';
-import { MainLayoutHeader } from './components/MainLayoutHeader';
+import { MainLayoutFooterWrapper } from './components/MainLayoutFooterWrapper';
+import { MainLayoutHeaderWrapper } from './components/MainLayoutHeaderWrapper';
 import { MainLayoutProps } from './types';
 
 const MainLayoutBase = ({
@@ -13,12 +14,17 @@ const MainLayoutBase = ({
   header,
   footer,
   isScrollable,
+  headerStyle,
 }: MainLayoutProps) => {
   return (
     <View style={S.flex.one}>
-      <MainLayoutHeader header={header} headerTitle={headerTitle} />
+      <MainLayoutHeaderWrapper
+        header={header}
+        headerTitle={headerTitle}
+        headerStyle={headerStyle}
+      />
       <MainLayoutContentWrapper isScrollable={isScrollable}>{children}</MainLayoutContentWrapper>
-      {footer}
+      <MainLayoutFooterWrapper>{footer}</MainLayoutFooterWrapper>
     </View>
   );
 };

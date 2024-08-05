@@ -16,11 +16,7 @@ export const SignUpEmail = () => {
         render={inputProps => <TextInput {...inputProps} />}
       />
 
-      <Button
-        title="Continue"
-        disabled={!values.email || !!errors.email}
-        onPress={() => goNextStep()}
-      />
+      <Button title="Continue" disabled={!values.email || !!errors.email} onPress={goNextStep} />
     </View>
   );
 };

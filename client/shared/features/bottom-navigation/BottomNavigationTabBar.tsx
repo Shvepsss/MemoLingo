@@ -7,7 +7,6 @@ import * as S from 'app/shared/styles/@style-atoms';
 
 import { BottomNavigationProps } from './types';
 
-const CONTAINER_PADDING = 10;
 type BottomNavigationTabBarProps = BottomTabBarProps & Pick<BottomNavigationProps, 'routes'>;
 export const BottomNavigationTabBar = ({
   state,
@@ -18,14 +17,13 @@ export const BottomNavigationTabBar = ({
   const theme = useTheme();
   return (
     <View
-      style={{
-        ...S.alignFlex.jSpaceBetween,
-        ...S.flex.row,
-        borderTopWidth: 1,
-        borderTopColor: theme.colors.black40,
-        paddingVertical: CONTAINER_PADDING,
-        paddingHorizontal: CONTAINER_PADDING,
-      }}
+      style={[
+        S.alignFlex.jSpaceBetween,
+        S.flex.row,
+        S.border.wid1,
+        S.spaceAll.px5,
+        { borderTopColor: theme.colors.black40 },
+      ]}
     >
       {state.routes.map((route, index) => {
         const inputRoute = routes.find(_route => _route.url === route.name);
@@ -51,11 +49,11 @@ export const BottomNavigationTabBar = ({
             accessibilityState={isFocused ? { selected: true } : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             onPress={onPress}
-            style={{
-              backgroundColor: isFocused ? theme.colors.primary40 : undefined,
-              borderRadius: 10,
-              padding: 8,
-            }}
+            style={[
+              { backgroundColor: isFocused ? theme.colors.primary40 : undefined },
+              S.border.radx5,
+              S.spaceAll.px4,
+            ]}
           >
             <IconLocal icon={inputRoute?.icon} size={45} />
           </TouchableOpacity>

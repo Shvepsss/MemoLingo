@@ -1,8 +1,10 @@
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import * as S from 'app/shared/styles/@style-atoms';
+
 export const withScreenProvider = (Screen: React.FC): React.FC => {
   return (props: any) => (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={S.flex.one}>
       <Screen {...props} />
     </SafeAreaView>
   );

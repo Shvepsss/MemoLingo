@@ -1,4 +1,4 @@
-export { View } from './View';
+export { View, type ViewProps } from './View';
 export { Typography, type TypographyProps } from './Typography';
 export { VectorIcon } from './VectorIcon';
 export { IconLocal } from './IconLocal';
@@ -8,3 +8,5 @@ export { FormController } from './FormController';
 export { Divider } from './Divider';
 export { SectionList } from './SectionList';
 export { SectionHeader } from './SectionHeader';
+export { Form } from './Form';
+export { ScrollView } from './ScrollView';

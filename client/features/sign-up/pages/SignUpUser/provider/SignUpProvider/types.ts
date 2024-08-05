@@ -18,5 +18,5 @@ export type SignUpContextType = {
 
 export type SignUpProviderProps = {
   children: React.ReactNode;
-  handleSubmit: () => any;
+  handleSubmit: () => void;
 };

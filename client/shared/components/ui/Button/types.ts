@@ -1,5 +1,4 @@
-import { ViewStyle } from 'react-native';
-
+import { ViewProps } from 'app/shared/components/ui/View';
 import { type MD3Colors } from 'app/shared/providers/theme';
 
 import { type TypographyProps } from '../Typography';
@@ -7,7 +6,7 @@ import { type TypographyProps } from '../Typography';
 import { BUTTON_RADIUS } from './constants';
 
 export type ButtonProps = {
-  title: string;
+  title: string | React.ReactNode;
   left?: React.ReactNode;
   right?: React.ReactNode;
   disabled?: boolean;
@@ -18,5 +17,5 @@ export type ButtonProps = {
   radius?: keyof typeof BUTTON_RADIUS;
   borderColor?: keyof MD3Colors;
   spaceBetween?: boolean;
-  style?: ViewStyle;
+  style?: ViewProps['style'];
 };

@@ -42,7 +42,7 @@ export const Button = ({
       onPress={onPress}
       disabled={disabled}
       {...pressableProps}
-      style={[pressableBaseStyle, pressableAnimatedStyle]}
+      style={[pressableBaseStyle, pressableAnimatedStyle, style]}
     >
       {left || null}
       <Typography color={titleColor} variant={titleVariant}>

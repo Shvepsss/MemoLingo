@@ -15,4 +15,5 @@ export const ICON_NAMES = {
   addFriend: 'account-plus-outline',
   addedFriend: 'account-check-outline',
   mistake: 'repeat-variant',
+  settings: 'cog',
 };

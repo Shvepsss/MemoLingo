@@ -1,5 +1,6 @@
 import { MainLayout } from 'app/shared/components/layout/MainLayout';
 import { Form } from 'app/shared/components/ui/Form';
+import { APP_URL } from 'app/shared/constants/url';
 import { RegistrationShema } from 'app/shared/utils/validation';
 
 import { SignUpAge } from './components/SignUpAge';
@@ -7,7 +8,7 @@ import { SignUpEmail } from './components/SignUpEmail';
 import { SignUpFinish } from './components/SignUpFinish';
 import { SignUpPassword } from './components/SignUpPassword';
 import { SignUpUserName } from './components/SignUpUserName';
-import { useSignUpLogic } from './hooks/useSignUpLogic';
+import { INITIAL_FORM_VALUES, useSignUpLogic } from './hooks/useSignUpLogic';
 import { SignUpProvider, useSignUpContext } from './provider';
 import { SIGN_UP_STEPS } from './provider/SignUpProvider/constants';
 import { SignUpHeader } from './provider/SignUpProvider/SignUpHeader';
@@ -40,7 +41,7 @@ export const SignUpUser = () => {
 
   return (
     <Form
-      initialValues={{ email: '', password: '', age: '', name: '' }}
+      initialValues={INITIAL_FORM_VALUES}
       onSubmit={onSubmit}
       validationSchema={RegistrationShema}
     >
@@ -54,3 +55,5 @@ export const SignUpUser = () => {
     </Form>
   );
 };
+
+SignUpUser.APP_URL = APP_URL.public.signUp.profile;

@@ -1,4 +1,5 @@
 import { useTheme } from 'app/shared/hooks/styles';
+import { getDynamicStylesInput, useDynamicStyles } from 'app/shared/hooks/styles/useDynamicStyles';
 import * as S from 'app/shared/styles/@style-atoms';
 
 import { Divider } from '../Divider';
@@ -11,21 +12,25 @@ type SectionHeaderProps = {
   details: string;
 };
 
-const CONTAINER_PADDING = 10;
-const CONTAINER_RADIUS = 10;
 const ICON_SIZE = 50;
-const ICON_PADDING = 15;
+
+const dynamicStyles = getDynamicStyles(theme => {
+  return {
+    container: {
+      backgroundColor: theme.colors.primary80,
+    },
+    divider: {
+      backgroundColor: theme.colors.black0,
+      width: 1,
+    },
+  };
+});
+
 export const SectionHeader = ({ title, details }: SectionHeaderProps) => {
   const theme = useTheme();
+  const styles = useDynamicStyles(dynamicStyles);
   return (
-    <View
-      style={{
-        backgroundColor: theme.colors.primary80,
-        borderRadius: CONTAINER_RADIUS,
-        padding: CONTAINER_PADDING,
-        flexDirection: 'row',
-      }}
-    >
+    <View style={[styles.container, S.flex.row, S.spaceAll.px5, S.border.radx2Half]}>
       <View style={S.flex.two}>
         <Typography variant="h4" color="black0">
           {title}
@@ -35,8 +40,8 @@ export const SectionHeader = ({ title, details }: SectionHeaderProps) => {
         </Typography>
       </View>
       <View style={(S.flex.one, S.flex.row)}>
-        <Divider style={{ height: '100%', width: 1, backgroundColor: theme.colors.black0 }} />
-        <VectorIcon iconName="book" size={ICON_SIZE} style={{ paddingHorizontal: ICON_PADDING }} />
+        <Divider style={[styles.divider, S.height.full]} />
+        <VectorIcon iconName="book" size={ICON_SIZE} style={S.spaceHorizontal.px7} />
       </View>
     </View>
   );

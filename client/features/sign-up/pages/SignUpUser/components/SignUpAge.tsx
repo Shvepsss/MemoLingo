@@ -12,11 +12,7 @@ export const SignUpAge = () => {
       <Typography variant="extraLargeRegular">How old are you?</Typography>
 
       <FormController name="age" label="Age" render={inputProps => <TextInput {...inputProps} />} />
-      <Button
-        title="Continue"
-        disabled={!values.age || !!errors.age}
-        onPress={() => goNextStep()}
-      />
+      <Button title="Continue" disabled={!values.age || !!errors.age} onPress={goNextStep} />
     </View>
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useFormikContext } from 'formik';
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { Typography, View } from 'app/shared/components/ui';
 import { useTheme } from 'app/shared/hooks/styles/useTheme';
@@ -36,7 +36,6 @@ type FormControlProps<T = any> = {
   hint?: string;
   render: (inputProps: InputPropsType<T>) => React.ReactNode;
   showDefaultHint?: boolean;
-  style?: StyleProp<ViewStyle>;
 };
 
 export type InputPropsType<T = string> = {
@@ -99,7 +98,7 @@ export const FormController = <T extends any = any>({
   const hintText = getHintText();
 
   return (
-    <View>
+    <View style={{ width: '100%' }}>
       {render(inputProps)}
       {(showDefaultHint || getHintText() !== DEFAULT_HINT_TEXT) && (
         <Typography

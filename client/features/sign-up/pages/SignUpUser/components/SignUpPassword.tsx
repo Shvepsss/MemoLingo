@@ -19,7 +19,7 @@ export const SignUpPassword = () => {
       <Button
         title="Continue"
         disabled={!values.password || !!errors.password}
-        onPress={() => goNextStep()}
+        onPress={goNextStep}
       />
     </View>
   );

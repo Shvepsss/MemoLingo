@@ -1,38 +1,32 @@
 import { View } from 'app/shared/components/ui/View';
-import { useTheme } from 'app/shared/hooks/styles';
+import { getDynamicStylesInput, useDynamicStyles } from 'app/shared/hooks/styles/useDynamicStyles';
+import * as S from 'app/shared/styles/@style-atoms';
 import { Animated } from 'app/shared/styles/reanimated';
 
-// eslint-disable-next-line import/no-cycle
 import { useProgressBarLogic } from './hook/useProgressBarLogic';
+import { ProgressBarProps } from './types';
 
-export type ProgressBarProps = {
-  progress: number;
-};
+const BAR_HEIGHT = 20;
+
+const dynamicStyles = getDynamicStylesInput(theme => {
+  return {
+    barContainer: {
+      backgroundColor: theme.colors.black20,
+      height: BAR_HEIGHT,
+    },
+    barContent: {
+      backgroundColor: theme.colors.primary40,
+    },
+  };
+});
 
 export const ProgressBar = ({ progress }: ProgressBarProps) => {
-  const theme = useTheme();
+  const styles = useDynamicStyles(dynamicStyles);
   const { progressBareAnimatedStyle } = useProgressBarLogic({ progress });
 
   return (
-    <View
-      style={{
-        borderRadius: 40,
-        backgroundColor: theme.colors.black40,
-        height: 20,
-        flex: 1,
-        overflow: 'hidden',
-      }}
-    >
-      <Animated.View
-        style={[
-          progressBareAnimatedStyle,
-          {
-            height: '100%',
-            backgroundColor: theme.colors.primary40,
-            borderRadius: 40,
-          },
-        ]}
-      />
+    <View style={[S.flex.one, S.overflow.hidden, S.border.radx5, styles.barContainer]}>
+      <Animated.View style={[S.height.full, styles.barContent, progressBareAnimatedStyle]} />
     </View>
   );
 };

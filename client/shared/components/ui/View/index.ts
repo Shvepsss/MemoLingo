@@ -1,1 +1,1 @@
-export { View } from './View';
+export { View, type ViewProps } from 'react-native';
