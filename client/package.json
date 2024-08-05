@@ -11,6 +11,7 @@
     "pods": "cd ios && bundle exec pod install"
   },
   "dependencies": {
+    "@gorhom/bottom-sheet": "4.4.8",
     "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
@@ -18,12 +19,15 @@
     "formik": "^2.4.5",
     "react": "18.2.0",
     "react-native": "0.73.6",
+    "react-native-fs": "^2.20.0",
+    "react-native-gesture-handler": "^2.16.2",
     "react-native-mmkv": "^2.12.2",
     "react-native-paper": "^5.12.3",
     "react-native-reanimated": "^3.8.1",
     "react-native-safe-area-context": "^4.9.0",
     "react-native-screens": "^3.30.1",
     "react-native-svg": "^15.1.0",
+    "react-native-track-player": "^4.1.1",
     "react-native-vector-icons": "^10.0.3",
     "validator": "^13.11.0",
     "zod": "^3.23.0",

@@ -14,5 +14,10 @@ export const fetchApi = async <Response extends any>(url: string, fetchOptions: 
     throw new Error(json.errorMessage || 'Something went wrong.');
   }
 
-  return data.json() as Response;
+  const contentType = data.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    return data.json() as Response;
+  } else {
+    return data as Response;
+  }
 };
