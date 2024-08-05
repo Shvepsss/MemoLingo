@@ -1,0 +1,25 @@
+{
+  message: 'MongoDB connection error:',
+  level: 'error',
+  timestamp: '2024-05-28T09:08:02.327Z'
+}
+{
+  message: 'MongoDB connection error:',
+  level: 'error',
+  timestamp: '2024-05-28T09:09:20.691Z'
+}
+{
+  message: 'MongoDB connection error:',
+  level: 'error',
+  timestamp: '2024-05-28T10:16:53.210Z'
+}
+{
+  message: 'MongoDB connection error:',
+  level: 'error',
+  timestamp: '2024-05-29T09:13:07.901Z'
+}
+{
+  message: 'MongoDB connection error:',
+  level: 'error',
+  timestamp: '2024-06-05T07:42:43.673Z'
+}

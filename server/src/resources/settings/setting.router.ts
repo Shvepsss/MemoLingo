@@ -2,7 +2,7 @@ import { OK } from "http-status-codes";
 import * as settingService from "./setting.service";
 import { Request, Response } from "app/types";
 import { Router } from "express";
-const router = Router();
+const router = Router({ mergeParams: true });
 
 router.get("/", async (req: Request, res: Response) => {
   try {

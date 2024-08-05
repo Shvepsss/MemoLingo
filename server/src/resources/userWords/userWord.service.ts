@@ -16,4 +16,7 @@ const remove = async (wordId: string, userId: string) => {
   userWordService.remove(wordId, userId);
 };
 
-export default { getAll, get, save, update, remove };
+const checkLearnedWords = async (userId: string, wordIds: string[]) =>
+  userWordService.checkLearnedWords(userId, wordIds);
+
+export default { getAll, get, save, update, remove, checkLearnedWords };

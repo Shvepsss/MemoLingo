@@ -1,6 +1,7 @@
 import UserWord from "./userWord.model";
 import { UserWordDocumentBase } from "./userWord.model";
 import { NOT_FOUND_ERROR, ENTITY_EXISTS } from "../../errors/appErrors";
+
 const ENTITY_NAME = "user word";
 const MONGO_ENTITY_EXISTS_ERROR_CODE = 11000;
 
@@ -12,6 +13,25 @@ const get = async (wordId: string, userId: string) => {
     throw new NOT_FOUND_ERROR(ENTITY_NAME, { wordId, userId });
   }
   return userWord;
+};
+
+const checkLearnedWords = async (userId: string, wordIds: string[]) => {
+  try {
+    const userWords = await UserWord.find({
+      userId,
+      wordId: { $in: wordIds.map((id) => id) },
+    })
+      .select("wordId")
+      .exec();
+
+    const learnedWordsMap = wordIds.map((id) => ({
+      id,
+      learned: userWords.some((word: any) => word.wordId.toString() === id),
+    }));
+    return learnedWordsMap;
+  } catch (err) {
+    throw err;
+  }
 };
 
 const save = async (userWord: UserWordDocumentBase) => {
@@ -46,4 +66,4 @@ const update = async (userWord: UserWordDocumentBase) => {
 const remove = async (wordId: string, userId: string) =>
   UserWord.deleteOne({ wordId, userId });
 
-export { getAll, get, save, update, remove };
+export { getAll, get, save, update, remove, checkLearnedWords };

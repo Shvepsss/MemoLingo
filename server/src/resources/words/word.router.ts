@@ -1,11 +1,12 @@
 import { OK } from "http-status-codes";
 import { Router } from "express";
+const router = Router({ mergeParams: true });
+import { Request, Response } from "app/types";
 import * as wordService from "./word.service";
 import { BAD_REQUEST_ERROR } from "../../errors/appErrors";
 import extractQueryParam from "../../utils/getQueryNumberParameter";
-const router = Router();
 
-router.route("/").get(async (req, res) => {
+router.route("/").get(async (req: Request, res: Response) => {
   const page = extractQueryParam(req.query.page, 0);
   const group = extractQueryParam(req.query.group, 0);
 
@@ -20,11 +21,10 @@ router.route("/").get(async (req, res) => {
     group,
   });
 
-  console.log({ words, page, group });
   res.status(OK).json(words.map((word) => word.toResponse()));
 });
 
-router.route("/:id").get(async (req, res) => {
+router.route("/:id").get(async (req: Request, res: Response) => {
   const word = await wordService.get(req.params.id);
   res.status(OK).json(word.toResponse());
 });

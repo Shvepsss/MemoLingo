@@ -9,7 +9,7 @@ const DOC_PATH_REGEX = /^\/doc\/?$/;
 const DOC_PATH_RESOURCES_REGEX = /^\/doc\/.+$/;
 const WORDS_PATH_REGEX = /^\/words.*$/;
 const USERS_PATH = "/users";
-const LOGING_PATH = "/sign-in";
+const LOGIN_PATH = "/sign-in";
 
 function isOpenPath(path: string): boolean {
   return (
@@ -29,7 +29,10 @@ const checkAuthentication = (
     return next();
   }
 
-  if (req.path === USERS_PATH || (LOGING_PATH && req.method === "POST")) {
+  if (
+    req.path === USERS_PATH ||
+    (req.path === LOGIN_PATH && req.method === "POST")
+  ) {
     return next();
   }
 

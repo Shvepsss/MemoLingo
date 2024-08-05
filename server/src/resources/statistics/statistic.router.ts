@@ -1,9 +1,9 @@
 import { OK } from "http-status-codes";
-import { Router } from "express";
+
 import * as statisticService from "./statistic.service";
-import shemas from "../../utils/validation/schemas";
 import { Request, Response } from "app/types";
-const router = Router();
+import { Router } from "express";
+const router = Router({ mergeParams: true });
 
 router.get("/", async (req: Request, res: Response) => {
   const statistic = await statisticService.get(req.userId);
