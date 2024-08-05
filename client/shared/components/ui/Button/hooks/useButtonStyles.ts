@@ -1,4 +1,4 @@
-import { ViewProps } from 'app/shared/components/ui/View';
+import { ViewProps } from 'app/shared/components/ui';
 import { useTheme } from 'app/shared/hooks/styles';
 import { MD3Colors } from 'app/shared/providers/theme';
 import { type SharedValue, useAnimatedStyle, withTiming } from 'app/shared/styles/reanimated';

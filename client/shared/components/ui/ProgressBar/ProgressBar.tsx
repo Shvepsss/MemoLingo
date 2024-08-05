@@ -1,4 +1,4 @@
-import { View } from 'app/shared/components/ui/View';
+import { View } from 'app/shared/components/ui';
 import { getDynamicStylesInput, useDynamicStyles } from 'app/shared/hooks/styles/useDynamicStyles';
 import * as S from 'app/shared/styles/@style-atoms';
 import { Animated } from 'app/shared/styles/reanimated';

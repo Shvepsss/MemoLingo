@@ -1,5 +1,5 @@
 import { MainLayout } from 'app/shared/components/layout/MainLayout';
-import { Form } from 'app/shared/components/ui/Form';
+import { Form } from 'app/shared/components/ui';
 import { APP_URL } from 'app/shared/constants/url';
 import { RegistrationShema } from 'app/shared/utils/validation';
 

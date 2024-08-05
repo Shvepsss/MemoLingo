@@ -16,4 +16,8 @@ export const ICON_NAMES = {
   addedFriend: 'account-check-outline',
   mistake: 'repeat-variant',
   settings: 'cog',
+  turtle: 'tortoise',
+  flagShtock: 'flag',
+  circleDone: 'check-circle',
+  circleClose: 'close-circle',
 };

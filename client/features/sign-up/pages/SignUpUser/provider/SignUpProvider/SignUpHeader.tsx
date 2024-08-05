@@ -1,5 +1,4 @@
-import { Button, VectorIcon, View } from 'app/shared/components/ui';
-import { ProgressBar } from 'app/shared/components/ui/ProgressBar';
+import { Button, VectorIcon, View, ProgressBar } from 'app/shared/components/ui';
 import { useRouter } from 'app/shared/hooks/navigation';
 import * as S from 'app/shared/styles/@style-atoms';
 

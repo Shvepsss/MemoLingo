@@ -562,6 +562,7 @@ export const border = StyleSheet.create({
   widHalf: { borderWidth: 0.5 },
   bWid0: { borderBottomWidth: 0 },
   bWid1: { borderBottomWidth: 1 },
+  bTWid1: { borderTopWidth: 1 },
   wid1: { borderWidth: 1 },
   wid2: { borderWidth: 2 },
   wid16: { borderWidth: 16 },
