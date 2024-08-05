@@ -18,4 +18,5 @@ export type ButtonProps = {
   borderColor?: keyof MD3Colors;
   spaceBetween?: boolean;
   style?: ViewProps['style'];
+  withAnimation?: boolean;
 };
